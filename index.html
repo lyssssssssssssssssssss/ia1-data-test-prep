@@ -113,6 +113,33 @@ caption{caption-side:top; text-align:left; padding:10px 12px 4px; font-weight:60
 /* verb table */
 .verb{display:inline-block; font-family:var(--f-mono); font-size:.75rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft); padding:2px 8px; border-radius:6px}
 
+/* 30 minute mark */
+.tabs a.hot{color:var(--pen)}
+.tabs a.hot[aria-current="page"]{color:var(--pen); background:var(--pen-soft)}
+.cram-head{gap:14px}
+.cram-row{display:flex; flex-wrap:wrap; gap:12px 20px; align-items:center; justify-content:space-between}
+#cram-t{font-family:var(--f-mono); font-weight:600; font-size:clamp(2.6rem, 10vw, 4rem); line-height:1; color:var(--pen); font-variant-numeric:tabular-nums}
+.cram-btns{display:flex; gap:8px; flex-wrap:wrap}
+.cram-msg{font-weight:600}
+.cram-nav{display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:6px}
+.cram-nav button{font:inherit; font-size:.85rem; font-weight:600; text-align:left; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:6px 10px; cursor:pointer; display:flex; flex-direction:column}
+.cram-nav button span{font-family:var(--f-mono); font-size:.72rem; font-weight:400; color:var(--muted)}
+.cram-nav button.now{border-color:var(--pen); background:var(--pen-soft)}
+.cram-nav button.now span{color:var(--pen)}
+.cram-nav button.done{opacity:.5}
+.cblock{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 20px; display:flex; flex-direction:column; gap:14px; scroll-margin-top:calc(env(safe-area-inset-top,0px) + 64px)}
+.cblock.now{border-color:var(--pen); box-shadow:0 0 0 1px var(--pen)}
+.cblock .card{background:var(--bg)}
+.tight{margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:6px}
+.flashes{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:8px}
+.flash{font:inherit; text-align:left; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px 12px; cursor:pointer; display:flex; flex-direction:column; gap:6px}
+.flash:hover{border-color:var(--accent)}
+.flash .fq{font-weight:600}
+.flash .fq::after{content:" · tap"; font-family:var(--f-mono); font-size:.72rem; font-weight:400; color:var(--muted)}
+.flash[aria-expanded="true"]{background:var(--good-soft); border-color:var(--good)}
+.flash[aria-expanded="true"] .fq::after{content:""}
+.hot-card{border-color:var(--pen)}
+
 /* verb dropdowns */
 .vd-tools{display:flex; justify-content:flex-end}
 .vd-list{display:flex; flex-direction:column; gap:10px}
@@ -240,6 +267,7 @@ details[open] summary::before{content:"\2212"}
 <nav class="tabs gut" aria-label="Sections">
   <div class="col">
     <a href="#start">Start here</a>
+    <a href="#30-minute-mark" class="hot">30 minute mark</a>
     <a href="#stats">Stats toolkit</a>
     <a href="#verbs">Verbs &amp; conclusions</a>
     <a href="#practice">Practice sheet</a>
@@ -310,6 +338,230 @@ details[open] summary::before{content:"\2212"}
         <li><b>Include units</b> (µm, ms, %, hours) and round as asked.</li>
         <li><b>Compare p to 0.05</b> in writing: "p = 0.01 &lt; 0.05".</li>
         <li><b>Link to psychology</b> in every 3-mark conclusion: name the brain structure or memory theory.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 30 MINUTE MARK ============ -->
+<section data-view="30-minute-mark" hidden>
+  <div class="intro">
+    <span class="eyebrow">30 minute mark</span>
+    <h2>Everything, in 30 minutes</h2>
+    <p>Six 5-minute blocks covering the whole data test. Start the timer, read each block once, and answer every drill in your head before tapping to check. The timer shows which block you should be on.</p>
+  </div>
+
+  <div class="card cram-head">
+    <div class="cram-row">
+      <b id="cram-t">30:00</b>
+      <div class="cram-btns">
+        <button class="btn primary" type="button" id="cram-go">Start 30 minutes</button>
+        <button class="btn" type="button" id="cram-reset">Reset</button>
+      </div>
+    </div>
+    <p id="cram-msg" class="cram-msg">Press start when you're ready. No phone.</p>
+    <div class="cram-nav" id="cram-nav">
+      <button type="button" data-b="0"><span>0–5</span>Exam &amp; verbs</button>
+      <button type="button" data-b="1"><span>5–10</span>Calculations</button>
+      <button type="button" data-b="2"><span>10–15</span>Reading stats</button>
+      <button type="button" data-b="3"><span>15–20</span>Graphs &amp; limits</button>
+      <button type="button" data-b="4"><span>20–25</span>Conclusions &amp; brain</button>
+      <button type="button" data-b="5"><span>25–30</span>Rapid fire</button>
+    </div>
+  </div>
+
+  <!-- Block 1 -->
+  <div class="cblock" id="cb0">
+    <div class="eyebrow">Block 1 · 0–5 min</div>
+    <h3>How the exam works and what each verb wants</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Question type</th><th class="num">Marks</th><th>Verbs</th></tr></thead>
+      <tbody>
+        <tr><td>Work out quantities from data</td><td class="num">~30%</td><td>calculate, determine, identify, use</td></tr>
+        <tr><td>Trends, patterns, limitations</td><td class="num">~30%</td><td>compare, contrast, sequence, classify, organise</td></tr>
+        <tr><td><b>Conclusions</b></td><td class="num"><b>~40%</b></td><td>draw a conclusion, predict, infer, justify, extrapolate, interpolate</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Verb</th><th>Write this</th></tr></thead>
+      <tbody>
+        <tr><td><span class="verb">Calculate</span></td><td>Working with the real numbers + answer + units</td></tr>
+        <tr><td><span class="verb">Identify</span></td><td>Name it + quote the value. No explanation.</td></tr>
+        <tr><td><span class="verb">Determine</span> <span class="verb">Use</span></td><td>Work it out from the data, graph or formula. Show the step.</td></tr>
+        <tr><td><span class="verb">Contrast</span></td><td>"A was __, <b>whereas</b> B was __" OR the difference</td></tr>
+        <tr><td><span class="verb">Compare</span></td><td>A similarity <b>and</b> a difference</td></tr>
+        <tr><td><span class="verb">Sequence</span> <span class="verb">Organise</span></td><td>Put in order, show each value. All equal → "equal variability"</td></tr>
+        <tr><td><span class="verb">Classify</span></td><td>Name the group (e.g. "strong negative")</td></tr>
+        <tr><td><span class="verb">Distinguish</span></td><td>Direction and <b>rate</b> of each trend, linked with "whereas"</td></tr>
+        <tr><td><span class="verb">Predict</span> <span class="verb">Extrapolate</span></td><td>Extend the first-to-last trendline <b>beyond</b> the data</td></tr>
+        <tr><td><span class="verb">Interpolate</span></td><td>Read <b>between</b> points inside the data</td></tr>
+        <tr><td><span class="verb">Infer</span> <span class="verb">Deduce</span></td><td>A conclusion the data implies + the evidence</td></tr>
+        <tr><td><span class="verb">Justify</span></td><td>Claim + "because" + the number</td></tr>
+        <tr><td><span class="verb">Draw a conclusion</span></td><td>Trend + r/p + psychology (1 mark each)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note">
+      <b>Golden rules:</b> show working · quote the numbers · units · compare p to 0.05 in writing · say "may", never "proves" · about 1 minute per mark.
+    </div>
+  </div>
+
+  <!-- Block 2 -->
+  <div class="cblock" id="cb1">
+    <div class="eyebrow">Block 2 · 5–10 min</div>
+    <h3>Calculations you must be able to do</h3>
+    <div class="grid2">
+      <div class="formula">Mean = sum ÷ n</div>
+      <div class="formula">Median = middle value in order</div>
+      <div class="formula">Range = highest − lowest</div>
+      <div class="formula">IQR = Q3 − Q1</div>
+      <div class="formula">SE = SD ÷ √n</div>
+      <div class="formula">95% CI = mean ± 1.96 × SE</div>
+    </div>
+    <ul class="tight">
+      <li><b>Median, even n:</b> average the two middle values. <b>Always order the data first.</b></li>
+      <li><b>IQR:</b> split the ordered data in half (leave out the median if n is odd). Q1 = middle of the lower half, Q3 = middle of the upper half.</li>
+      <li><b>Mode:</b> the most frequent value. Several people share the top value? Name them all.</li>
+      <li><b>Round as asked</b> and include units (µm, ms, %, hours).</li>
+    </ul>
+    <p class="eyebrow">Drill: answer in your head, then tap</p>
+    <div class="flashes">
+      <button class="flash" type="button"><span class="fq">Mean of 4, 8, 6, 2?</span><span class="fa" hidden>(4 + 8 + 6 + 2) ÷ 4 = 20 ÷ 4 = <b>5</b></span></button>
+      <button class="flash" type="button"><span class="fq">Median of 7, 3, 9, 5?</span><span class="fa" hidden>3, 5, 7, 9 → (5 + 7) ÷ 2 = <b>6</b></span></button>
+      <button class="flash" type="button"><span class="fq">Median of 11, 2, 8, 5, 6?</span><span class="fa" hidden>2, 5, <b>6</b>, 8, 11 → <b>6</b></span></button>
+      <button class="flash" type="button"><span class="fq">Range of 12, 30, 18?</span><span class="fa" hidden>30 − 12 = <b>18</b></span></button>
+      <button class="flash" type="button"><span class="fq">IQR of 1, 3, 4, 6, 8, 9, 12?</span><span class="fa" hidden>Lower 1, 3, 4 → Q1 = 3. Upper 8, 9, 12 → Q3 = 9. IQR = <b>6</b></span></button>
+      <button class="flash" type="button"><span class="fq">SE when SD = 8 and n = 16?</span><span class="fa" hidden>8 ÷ √16 = 8 ÷ 4 = <b>2</b></span></button>
+      <button class="flash" type="button"><span class="fq">95% CI for mean 40, SE 2?</span><span class="fa" hidden>40 ± 1.96 × 2 = 40 ± 3.92 → <b>36.08 to 43.92</b></span></button>
+      <button class="flash" type="button"><span class="fq">Mode of 3, 5, 5, 7, 5, 2?</span><span class="fa" hidden><b>5</b> (appears 3 times)</span></button>
+    </div>
+  </div>
+
+  <!-- Block 3 -->
+  <div class="cblock" id="cb2">
+    <div class="eyebrow">Block 3 · 10–15 min</div>
+    <h3>Reading the statistics they give you</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Statistic</th><th>What it tells you</th><th>Write</th></tr></thead>
+      <tbody>
+        <tr><td><b>SD</b></td><td>Spread around the mean. Bigger = more variability, more uncertainty, less consistent.</td><td>"A shows the greatest dispersion (SD = 20.5 vs 11.5)."</td></tr>
+        <tr><td><b>r</b></td><td>−1 to +1. Sign = direction. Size = strength: ≥ 0.7 strong, 0.4–0.69 moderate, 0.1–0.39 weak.</td><td>"A strong negative correlation (r = −0.96)."</td></tr>
+        <tr><td><b>p</b></td><td>Chance the result is due to chance. <b>&lt; 0.05 = significant.</b> ≥ 0.05 = not significant.</td><td>"p = 0.01 &lt; 0.05, so it is statistically significant and unlikely due to chance."</td></tr>
+        <tr><td><b>t-test</b></td><td>Compares two means. <b>Same people</b> in both conditions → <b>paired</b>. <b>Different people</b> → <b>unpaired</b>.</td><td>"The same participants completed both conditions."</td></tr>
+        <tr><td><b>SE</b></td><td>How far the sample mean is likely to be from the population mean. Bigger n → smaller SE.</td><td>"A small sample increases the standard error."</td></tr>
+        <tr><td><b>95% CI</b></td><td>Range likely to hold the true population mean. Narrow = precise. CIs not overlapping → likely a real difference.</td><td>"We are 95% confident the population mean lies between __ and __."</td></tr>
+        <tr><td><b>Mean vs median</b></td><td>An outlier pulls the mean; the median resists it.</td><td>"The mean (835) is above the median (810) because of the outlier (1300)."</td></tr>
+      </tbody>
+    </table></div>
+    <p class="warn"><b>Compare r by size, not sign:</b> −0.89 is stronger than +0.72. Correlation never proves causation.</p>
+    <p class="eyebrow">Drill</p>
+    <div class="flashes">
+      <button class="flash" type="button"><span class="fq">Stronger: +0.65 or −0.81?</span><span class="fa" hidden><b>−0.81</b> (0.81 &gt; 0.65)</span></button>
+      <button class="flash" type="button"><span class="fq">p = 0.049. Significant?</span><span class="fa" hidden><b>Yes</b>: 0.049 &lt; 0.05</span></button>
+      <button class="flash" type="button"><span class="fq">p = 0.05. Significant?</span><span class="fa" hidden><b>No</b>: it must be less than 0.05</span></button>
+      <button class="flash" type="button"><span class="fq">SD 3.1 vs SD 7.4: which has more dispersion?</span><span class="fa" hidden><b>SD 7.4</b>, the larger SD</span></button>
+      <button class="flash" type="button"><span class="fq">The same 20 students are tested with and without caffeine. Which t-test?</span><span class="fa" hidden><b>Paired</b>: same people in both conditions</span></button>
+      <button class="flash" type="button"><span class="fq">A Controlled Group and a separate Test Group. Which t-test?</span><span class="fa" hidden><b>Unpaired</b>: independent groups</span></button>
+      <button class="flash" type="button"><span class="fq">r = −0.45 in words?</span><span class="fa" hidden><b>Moderate negative</b> correlation</span></button>
+      <button class="flash" type="button"><span class="fq">What happens to SE if the sample gets bigger?</span><span class="fa" hidden>It <b>decreases</b>, so the estimate is more precise</span></button>
+    </div>
+  </div>
+
+  <!-- Block 4 -->
+  <div class="cblock" id="cb3">
+    <div class="eyebrow">Block 4 · 15–20 min</div>
+    <h3>Graphs, trends and limitations</h3>
+    <ul class="tight">
+      <li><b>Positive:</b> X up, Y up. <b>Negative:</b> X up, Y down. <b>Linear:</b> roughly a straight line.</li>
+      <li><b>Describe a trend with numbers:</b> "As hours increase, scores increase from about 25% at 1 hour to about 90% at 7 hours."</li>
+      <li><b>Distinguish:</b> both rise, but one rises <b>faster</b> (bigger change over the same range). Or one rises while the other falls.</li>
+      <li><b>Predict:</b> rule a line from the first to the last point. Change per unit = (last y − first y) ÷ (last x − first x). Add it on and say "≈".</li>
+      <li><b>Read a graph:</b> go up from the x value to the trend, then across to the y-axis. Give an approximate value.</li>
+      <li><b>Count points:</b> "more than 8" means strictly greater than 8.</li>
+      <li><b>Look at what the question names:</b> one condition, both together, or the difference between them.</li>
+    </ul>
+    <div class="card">
+      <div class="eyebrow">Limitations and uncertainty</div>
+      <ul class="tight">
+        <li>Small sample (e.g. N = 6) → may not generalise, larger SE, wider CI</li>
+        <li>Outliers distort the mean and range</li>
+        <li>Large SD → high variability, less reliable</li>
+        <li>Correlation ≠ causation; other variables may be involved</li>
+        <li>p ≥ 0.05 → difference could be due to chance</li>
+        <li>Overlapping CIs → conditions may not truly differ</li>
+      </ul>
+    </div>
+    <p class="eyebrow">Drill</p>
+    <div class="flashes">
+      <button class="flash" type="button"><span class="fq">2 h = 40, 6 h = 60. Predict 8 h.</span><span class="fa" hidden>(60 − 40) ÷ 4 = 5 per hour → 60 + 10 = <b>≈ 70</b></span></button>
+      <button class="flash" type="button"><span class="fq">Deep 25% → 90%, shallow 22% → 52%. Distinguish.</span><span class="fa" hidden>Both increase, but <b>deep increases faster</b> (+65 vs +30)</span></button>
+      <button class="flash" type="button"><span class="fq">One limitation of a study with 6 participants?</span><span class="fa" hidden><b>Small sample</b>: results may not generalise to the population</span></button>
+      <button class="flash" type="button"><span class="fq">Points from top-left to bottom-right?</span><span class="fa" hidden><b>Negative</b> relationship</span></button>
+      <button class="flash" type="button"><span class="fq">4 h = 78%, 6 h = 86%. Interpolate 5 h.</span><span class="fa" hidden>Halfway → <b>≈ 82%</b></span></button>
+      <button class="flash" type="button"><span class="fq">Three subgroup ranges are all 14. Sequence them.</span><span class="fa" hidden>They show <b>equal variability</b> (each range = 14)</span></button>
+    </div>
+  </div>
+
+  <!-- Block 5 -->
+  <div class="cblock" id="cb4">
+    <div class="eyebrow">Block 5 · 20–25 min</div>
+    <h3>Draw a conclusion, plus the psychology for mark 3</h3>
+    <div class="grid2">
+      <div class="formula"><span class="pen">[1]</span> Trend with numbers</div>
+      <div class="formula"><span class="pen">[1]</span> r and/or p</div>
+      <div class="formula"><span class="pen">[1]</span> Why: brain or memory</div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Memorise this shape (L18 model answer)</div>
+      <p>As weekly hours of deep-processing study increase, mean test scores rise sharply, from about 25% at 1 hour to about 90% at 7 hours <span class="pen">[1]</span>. This is supported by a strong positive correlation (r = +0.96) <span class="pen">[1]</span>. This may be because deep processing enhances semantic encoding, which strengthens memory traces and leads to higher recall (Craik &amp; Lockhart) <span class="pen">[1]</span>.</p>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>If the data is about…</th><th>Use this for the reasoning mark</th></tr></thead>
+      <tbody>
+        <tr><td>Study methods, deep vs shallow, educative content</td><td><b>Levels of processing</b> (Craik &amp; Lockhart): structural (appearance) → phonological (sound) → semantic (meaning). Deeper = stronger memory trace = better recall. Craik &amp; Tulving (1975) showed semantic is recalled best.</td></tr>
+        <tr><td>Sleep</td><td>Sleep restores attention (<b>prefrontal cortex</b>) and lets the <b>hippocampus</b> consolidate memories. Tired = slower processing, worse recall.</td></tr>
+        <tr><td>Stress, fear, threat</td><td><b>Amygdala</b> detects threatening stimuli and triggers the stress response and stress hormones.</td></tr>
+        <tr><td>Choosing movements</td><td><b>Basal ganglia</b> select intended movements and inhibit competing ones. Disruption → more competing movements.</td></tr>
+        <tr><td>Coordination, motor skills</td><td><b>Cerebellum</b>: timing, balance, fine motor control, procedural (skill) memory.</td></tr>
+        <tr><td>Remembering new events</td><td><b>Hippocampus</b>: forms new explicit memories and moves them to long-term memory.</td></tr>
+        <tr><td>Voluntary movement</td><td><b>Primary motor cortex</b> (frontal lobe) sends signals via motor neurons to muscles.</td></tr>
+        <tr><td>Language practice</td><td><b>Broca's</b> (speech production) and <b>Wernicke's</b> (comprehension). Practice strengthens neural pathways (neuroplasticity).</td></tr>
+        <tr><td>Reaction time, neurons</td><td><b>Sensory neurons</b> → CNS (interneurons) → <b>motor neurons</b>. Slower processing = slower reaction.</td></tr>
+        <tr><td>Memory model</td><td><b>Multi-store model:</b> sensory → STM (about 18–30 s, 7 ± 2 items) → LTM. Maintenance rehearsal = repeating (shallow). Elaborative rehearsal = linking to meaning (deep).</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- Block 6 -->
+  <div class="cblock" id="cb5">
+    <div class="eyebrow">Block 6 · 25–30 min</div>
+    <h3>Rapid fire: test yourself</h3>
+    <div class="flashes">
+      <button class="flash" type="button"><span class="fq">The 3 parts of a 3-mark conclusion?</span><span class="fa" hidden>Trend with numbers · r and/or p · psychological reasoning</span></button>
+      <button class="flash" type="button"><span class="fq">"Identify" needs how much?</span><span class="fa" hidden>Name it and quote the value. <b>No explanation.</b></span></button>
+      <button class="flash" type="button"><span class="fq">Contrast vs compare?</span><span class="fa" hidden>Contrast = <b>differences</b> only. Compare = similarities <b>and</b> differences.</span></button>
+      <button class="flash" type="button"><span class="fq">The significance cut-off?</span><span class="fa" hidden><b>p &lt; 0.05</b></span></button>
+      <button class="flash" type="button"><span class="fq">Which measure of dispersion do you quote first?</span><span class="fa" hidden><b>Standard deviation</b></span></button>
+      <button class="flash" type="button"><span class="fq">Shallowest to deepest processing?</span><span class="fa" hidden>Structural → Phonological → Semantic</span></button>
+      <button class="flash" type="button"><span class="fq">"Does lake rhyme with cake?" Which level?</span><span class="fa" hidden><b>Phonological</b> (sound)</span></button>
+      <button class="flash" type="button"><span class="fq">Which structure selects intended movements?</span><span class="fa" hidden><b>Basal ganglia</b></span></button>
+      <button class="flash" type="button"><span class="fq">Which structure detects threat?</span><span class="fa" hidden><b>Amygdala</b></span></button>
+      <button class="flash" type="button"><span class="fq">Which structure consolidates new explicit memories?</span><span class="fa" hidden><b>Hippocampus</b></span></button>
+      <button class="flash" type="button"><span class="fq">How do you predict beyond the data?</span><span class="fa" hidden>Rule a line from the <b>first to the last point</b>, extend it, and give "≈" a value</span></button>
+      <button class="flash" type="button"><span class="fq">Median of 2, 2, 3, 6, 8, 9?</span><span class="fa" hidden>(3 + 6) ÷ 2 = <b>4.5</b></span></button>
+      <button class="flash" type="button"><span class="fq">r = −0.96, p = 0.042. Describe in one sentence.</span><span class="fa" hidden>A <b>strong negative</b> correlation that is <b>statistically significant</b> (p &lt; 0.05)</span></button>
+      <button class="flash" type="button"><span class="fq">Why say "may affect" in a conclusion?</span><span class="fa" hidden><b>Correlation doesn't prove causation</b></span></button>
+    </div>
+    <div class="card hot-card">
+      <div class="eyebrow">If you remember nothing else</div>
+      <ol class="tight">
+        <li>Show working: sum ÷ n with the real numbers.</li>
+        <li>Order the data before finding the median.</li>
+        <li>Bigger SD = more dispersion. Quote both values.</li>
+        <li>r: sign = direction, size = strength.</li>
+        <li>p &lt; 0.05 = significant, unlikely due to chance.</li>
+        <li>Same people = paired t-test. Different people = unpaired.</li>
+        <li>Conclusion = trend + r/p + psychology. Use "may".</li>
+        <li>Read the verb and the mark value before you write.</li>
       </ol>
     </div>
   </div>
@@ -927,7 +1179,7 @@ const store = {
 const fmt = (x, dp=2) => { if(!isFinite(x)) return '–'; const r = Math.round(x*Math.pow(10,dp))/Math.pow(10,dp); return String(r); };
 
 /* ---------- routing ---------- */
-const views = ['start','stats','verbs','practice','examples','quiz','brain','cheatsheet'];
+const views = ['start','30-minute-mark','stats','verbs','practice','examples','quiz','brain','cheatsheet'];
 function show(v, scroll){
   if(!views.includes(v)) v = 'start';
   $$('[data-view]').forEach(s => s.hidden = s.dataset.view !== v);
@@ -1194,6 +1446,46 @@ $('#reset-marks').addEventListener('click', () => {
   $$('.self button').forEach(x => x.setAttribute('aria-pressed','false')); updateScore();
 });
 updateScore();
+
+/* ---------- 30 minute mark ---------- */
+const CR = 30*60*1000, BL = 5*60*1000;
+let cram = store.get('ia1-cram', {start:null, acc:0});
+const cramMsgs = ['Block 1: exam layout and verbs. Read fast.','Block 2: calculations. Do every drill in your head.','Block 3: reading SD, r, p and t-tests.','Block 4: graphs, predictions and limitations.','Block 5: the conclusion formula and the psychology.','Block 6: rapid fire. Test yourself on everything.'];
+function cramElapsed(){ return Math.min(CR, cram.acc + (cram.start ? Date.now() - cram.start : 0)); }
+function cramTick(){
+  const el = cramElapsed(), left = CR - el, running = !!cram.start, begun = el > 0;
+  if(running && left <= 0){ cram = {start:null, acc:CR}; store.set('ia1-cram', cram); }
+  const m = Math.floor(left/60000), s = Math.floor(left%60000/1000);
+  $('#cram-t').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  const idx = Math.min(5, Math.floor(el / BL));
+  const go = $('#cram-go');
+  go.textContent = cram.start ? 'Pause' : left <= 0 ? 'Done' : begun ? 'Resume' : 'Start 30 minutes';
+  go.disabled = left <= 0;
+  $('#cram-msg').textContent = left <= 0 ? 'Done. Go back over any drill you got wrong.' : begun ? (cram.start ? '' : 'Paused. ') + cramMsgs[idx] : 'Press start when you\'re ready. No phone.';
+  $$('#cram-nav button').forEach((b,i) => { b.classList.toggle('now', begun && left > 0 && i === idx); b.classList.toggle('done', begun && (i < idx || left <= 0)); });
+  $$('.cblock').forEach((b,i) => b.classList.toggle('now', begun && left > 0 && i === idx));
+}
+$('#cram-go').addEventListener('click', () => {
+  if(cram.start){ cram.acc += Date.now() - cram.start; cram.start = null; }
+  else { cram.start = Date.now(); }
+  store.set('ia1-cram', cram); cramTick();
+});
+$('#cram-reset').addEventListener('click', () => {
+  cram = {start:null, acc:0}; store.set('ia1-cram', cram);
+  $$('.flash').forEach(f => { f.setAttribute('aria-expanded','false'); f.querySelector('.fa').hidden = true; });
+  cramTick();
+});
+$('#cram-nav').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  const t = document.getElementById('cb' + b.dataset.b); if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+});
+$$('.flash').forEach(f => f.setAttribute('aria-expanded','false'));
+document.addEventListener('click', e => {
+  const f = e.target.closest('.flash'); if(!f) return;
+  const open = f.getAttribute('aria-expanded') !== 'true';
+  f.setAttribute('aria-expanded', open); f.querySelector('.fa').hidden = !open;
+});
+cramTick(); setInterval(cramTick, 1000);
 
 /* ---------- verb dropdowns ---------- */
 const PEN = n => `<span class="pen">[${n}]</span>`;
