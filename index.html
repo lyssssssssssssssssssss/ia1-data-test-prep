@@ -1,0 +1,1303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>IA1 Data Test Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a revision workbook. Sticky tab bar, one narrow reading column, red-pen marks and highlighter key terms as in a marked exam script. */
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --sunk:#eaeef4; --ink:#121a26; --muted:#566173; --line:#d9dfe8;
+  --accent:#2340a8; --accent-soft:#e5eafa; --pen:#c4302a; --pen-soft:#fbe9e7;
+  --hl:#ffe58a; --good:#17784a; --good-soft:#e3f4ea; --bad:#b4271f; --bad-soft:#fbe6e4;
+  --s1:#2a78d6; --s2:#eb6834;
+  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e131a; --surface:#161d27; --sunk:#1d2632; --ink:#e8edf4; --muted:#9ba7b8; --line:#2a3443;
+    --accent:#93a9ff; --accent-soft:#1e2846; --pen:#ff8077; --pen-soft:#3a1e1d;
+    --hl:#6b5a14; --good:#58c98f; --good-soft:#15301f; --bad:#ff8a80; --bad-soft:#3a1d1b;
+    --s1:#3987e5; --s2:#d95926; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e131a; --surface:#161d27; --sunk:#1d2632; --ink:#e8edf4; --muted:#9ba7b8; --line:#2a3443;
+  --accent:#93a9ff; --accent-soft:#1e2846; --pen:#ff8077; --pen-soft:#3a1e1d;
+  --hl:#6b5a14; --good:#58c98f; --good-soft:#15301f; --bad:#ff8a80; --bad-soft:#3a1d1b;
+  --s1:#3987e5; --s2:#d95926; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.6}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--surface)}
+.gut{padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+.col{max-width:900px; margin:0 auto}
+h1,h2,h3{font-family:var(--f-display); line-height:1.15; text-wrap:balance; margin:0}
+h1{font-size:clamp(1.7rem, 4vw, 2.4rem); font-weight:800; letter-spacing:-.01em}
+h2{font-size:1.55rem; font-weight:700}
+h3{font-size:1.15rem; font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+code,.mono{font-family:var(--f-mono); font-size:.92em}
+.eyebrow{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+mark,.key{background:linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 88%, transparent 88%); color:inherit; padding:0 .15em; border-radius:2px; font-weight:600}
+.pen{color:var(--pen); font-family:var(--f-mono); font-weight:600; font-size:.88em; white-space:nowrap}
+
+/* header */
+.top{background:var(--surface); border-bottom:1px solid var(--line)}
+.top .col{display:flex; flex-wrap:wrap; gap:12px 24px; align-items:flex-end; justify-content:space-between; padding-block:22px 16px}
+.top .sub{color:var(--muted); margin-top:6px; max-width:60ch}
+.cd{display:flex; flex-direction:column; align-items:flex-end; gap:2px}
+.cd b{font-family:var(--f-mono); font-size:1.35rem; font-variant-numeric:tabular-nums; color:var(--pen)}
+.tabs{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--surface); border-bottom:1px solid var(--line)}
+.tabs .col{display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; padding-block:6px}
+.tabs a{flex:none; text-decoration:none; color:var(--muted); font-weight:600; font-size:.9rem; padding:8px 12px; border-radius:8px; white-space:nowrap}
+.tabs a:hover{color:var(--ink); background:var(--sunk)}
+.tabs a[aria-current="page"]{color:var(--accent); background:var(--accent-soft)}
+.tabs a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, textarea:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+main{padding-block:28px 80px}
+section[data-view]{display:flex; flex-direction:column; gap:28px}
+.intro{display:flex; flex-direction:column; gap:10px; max-width:68ch}
+.intro p{color:var(--muted)}
+.stack{display:flex; flex-direction:column; gap:14px}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px}
+.grid2 > *{min-width:0}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 20px; display:flex; flex-direction:column; gap:10px; min-width:0}
+.card p, .card li{max-width:70ch}
+.card ul, .card ol{margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:4px}
+.note{background:var(--accent-soft); border-radius:10px; padding:12px 16px}
+.warn{background:var(--pen-soft); border-radius:10px; padding:12px 16px}
+.formula{font-family:var(--f-mono); background:var(--sunk); border-radius:8px; padding:10px 14px; overflow-x:auto; white-space:nowrap}
+.tbl{overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:.92rem; font-variant-numeric:tabular-nums}
+th,td{text-align:left; padding:8px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+th{font-weight:600; background:var(--sunk); white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num, th.num{text-align:right; font-family:var(--f-mono)}
+caption{caption-side:top; text-align:left; padding:10px 12px 4px; font-weight:600; font-size:.9rem}
+
+/* plan */
+.plan{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; border:1px solid var(--line); border-radius:12px; background:var(--surface); overflow:hidden}
+.plan li{display:grid; grid-template-columns:108px 1fr; gap:12px; padding:11px 16px; border-bottom:1px solid var(--line)}
+.plan li:last-child{border-bottom:none}
+.plan time{font-family:var(--f-mono); font-size:.85rem; color:var(--muted); padding-top:2px}
+.plan li.now{background:var(--accent-soft)}
+.plan li.now time{color:var(--accent); font-weight:600}
+.plan li.done{opacity:.55}
+.plan a{font-weight:600}
+
+/* blueprint bar */
+.bp{display:flex; height:14px; border-radius:7px; overflow:hidden; gap:2px}
+.bp span{display:block}
+.bp .b1{flex:30; background:var(--s1)} .bp .b2{flex:30; background:var(--accent)} .bp .b3{flex:40; background:var(--pen)}
+
+/* verb table */
+.verb{display:inline-block; font-family:var(--f-mono); font-size:.75rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft); padding:2px 8px; border-radius:6px}
+
+/* practice questions */
+.ds{display:flex; flex-direction:column; gap:16px}
+.ds-head{display:flex; flex-direction:column; gap:8px}
+.q{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px; display:flex; flex-direction:column; gap:10px}
+.q-h{display:flex; flex-wrap:wrap; gap:8px 10px; align-items:center}
+.qn{font-family:var(--f-display); font-weight:800; font-size:1.1rem}
+.mk{margin-left:auto}
+.qt{font-weight:500}
+textarea{width:100%; min-height:64px; resize:vertical; font:inherit; font-size:.95rem; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:8px 10px}
+details{border-top:1px dashed var(--line); padding-top:8px}
+summary{cursor:pointer; font-weight:600; color:var(--accent); list-style:none; display:inline-flex; gap:6px; align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+"; font-family:var(--f-mono); display:inline-block; width:1em}
+details[open] summary::before{content:"\2212"}
+.ans{display:flex; flex-direction:column; gap:10px; padding-top:10px}
+.ans .model{border-left:3px solid var(--good); padding:6px 0 6px 12px}
+.ans .lbl{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.work{font-family:var(--f-mono); font-size:.88rem; background:var(--sunk); border-radius:8px; padding:10px 12px; overflow-x:auto; white-space:pre-wrap; word-break:break-word}
+.self{display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:.88rem; color:var(--muted)}
+.self button, .btn{font:inherit; font-weight:600; font-size:.88rem; color:var(--ink); background:var(--sunk); border:1px solid var(--line); border-radius:8px; padding:5px 12px; cursor:pointer}
+.self button[aria-pressed="true"]{background:var(--accent); color:var(--surface); border-color:var(--accent)}
+.btn.primary{background:var(--accent); color:var(--surface); border-color:var(--accent)}
+.scorebar{position:sticky; top:calc(env(safe-area-inset-top,0px) + 52px); z-index:4; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 14px; display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; justify-content:space-between}
+.scorebar b{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
+.meter{flex:1 1 160px; height:8px; background:var(--sunk); border-radius:4px; overflow:hidden}
+.meter i{display:block; height:100%; width:0; background:var(--good); transition:width .3s}
+
+/* charts */
+.chart{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 12px 6px}
+.chart svg{display:block; width:100%; height:auto}
+.chart .ctitle{font-weight:600; font-size:.92rem; padding:2px 4px 6px}
+.legend{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:.85rem; color:var(--muted); padding:0 4px 4px}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.sw{width:12px; height:12px; display:inline-block; border-radius:50%}
+.sw.sq{border-radius:2px}
+.grid-l{stroke:var(--line); stroke-dasharray:3 4}
+.axis-l{stroke:var(--muted); stroke-width:1}
+.tick{fill:var(--muted); font-family:var(--f-mono); font-size:12px}
+.atitle{fill:var(--ink); font-family:var(--f-body); font-size:13px; font-weight:500}
+.dlabel{font-family:var(--f-body); font-size:12px; font-weight:600; fill:var(--ink)}
+.trend{stroke:var(--muted); stroke-width:2; stroke-dasharray:6 5; fill:none}
+.pred{fill:var(--surface); stroke-width:2}
+.hit{fill:transparent; cursor:crosshair}
+.tip{position:absolute; pointer-events:none; background:var(--ink); color:var(--bg); font-size:.8rem; padding:5px 8px; border-radius:6px; white-space:nowrap; transform:translate(-50%, calc(-100% - 10px)); font-variant-numeric:tabular-nums}
+.chart-ctl{display:flex; gap:8px; padding:6px 4px 4px; flex-wrap:wrap}
+
+/* calculator */
+.calc{display:flex; flex-direction:column; gap:12px}
+.calc input[type=text], .tool input{font:inherit; font-family:var(--f-mono); width:100%; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:8px 10px}
+.out{display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:10px}
+.out > div{background:var(--sunk); border-radius:8px; padding:10px 12px; min-width:0}
+.out b{display:block; font-family:var(--f-mono); font-size:1.15rem; font-variant-numeric:tabular-nums}
+.out small{display:block; color:var(--muted); font-family:var(--f-mono); font-size:.78rem; white-space:pre-wrap; word-break:break-word}
+.tool{display:flex; flex-direction:column; gap:8px}
+.tool .res{font-size:.95rem}
+
+/* quiz */
+.mcq{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px; display:flex; flex-direction:column; gap:10px}
+.opts{display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:8px}
+.opts button{font:inherit; text-align:left; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:8px 12px; cursor:pointer}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button.right{background:var(--good-soft); border-color:var(--good); color:var(--ink)}
+.opts button.wrong{background:var(--bad-soft); border-color:var(--bad)}
+.opts button:disabled{cursor:default}
+.why{font-size:.92rem; color:var(--muted)}
+.why b.ok{color:var(--good)} .why b.no{color:var(--bad)}
+
+/* brain cards */
+.bcard h3{display:flex; gap:8px; align-items:baseline; flex-wrap:wrap}
+.bcard .loc{font-family:var(--f-mono); font-size:.75rem; color:var(--muted); font-weight:400}
+.use{font-size:.92rem; border-left:3px solid var(--accent); padding-left:10px; color:var(--ink)}
+
+/* cheat sheet */
+.cheat{columns:2 300px; column-gap:16px}
+.cheat .card{break-inside:avoid; margin-bottom:16px}
+.checks{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px}
+.checks label{display:flex; gap:10px; align-items:flex-start; cursor:pointer}
+.checks input{margin-top:5px; accent-color:var(--accent)}
+
+@media (max-width:560px){
+  .plan li{grid-template-columns:1fr; gap:2px}
+  .cd{align-items:flex-start}
+  .mk{margin-left:0}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+
+<header class="top gut">
+  <div class="col">
+    <div>
+      <div class="eyebrow">Year 11 Psychology · IA1 Data Test · Brain function &amp; memory</div>
+      <h1>IA1 Data Test Prep</h1>
+      <p class="sub">Everything from your practice sheet, the L15 practice-exam review and the L18 revision lesson, with worked answers and the marking points moderators look for.</p>
+    </div>
+    <div class="cd" aria-live="polite">
+      <span class="eyebrow">Exam at 11:50 am</span>
+      <b id="cd">--</b>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs gut" aria-label="Sections">
+  <div class="col">
+    <a href="#start">Start here</a>
+    <a href="#stats">Stats toolkit</a>
+    <a href="#verbs">Verbs &amp; conclusions</a>
+    <a href="#practice">Practice sheet</a>
+    <a href="#examples">Class examples</a>
+    <a href="#quiz">Quick quiz</a>
+    <a href="#brain">Brain &amp; memory</a>
+    <a href="#cheatsheet">Cheat sheet</a>
+  </div>
+</nav>
+
+<main class="gut">
+<div class="col">
+
+<!-- ============ START ============ -->
+<section data-view="start">
+  <div class="intro">
+    <span class="eyebrow">Your plan until 11:50</span>
+    <h2>Work through it in this order</h2>
+    <p>The current block is highlighted. Do the practice questions <em>before</em> opening the answers: writing an answer and then checking it is what makes it stick.</p>
+  </div>
+  <ol class="plan" id="plan">
+    <li data-from="9:00" data-to="9:25"><time>9:00 – 9:25</time><div><a href="#stats">Stats toolkit</a>: mean, median, range, IQR, SD, SE, CI, Pearson r, p-values, t-tests. Know what each one <em>tells you</em> and how to write about it.</div></li>
+    <li data-from="9:25" data-to="9:45"><time>9:25 – 9:45</time><div><a href="#verbs">Verbs &amp; conclusions</a>: what each cognitive verb wants, and the Trend + Data + Reasoning formula for "draw a conclusion".</div></li>
+    <li data-from="9:45" data-to="10:15"><time>9:45 – 10:15</time><div><a href="#practice">Practice sheet</a>, Datasets 1 and 2 (Q1–11). Write answers, then self-mark.</div></li>
+    <li data-from="10:15" data-to="10:45"><time>10:15 – 10:45</time><div><a href="#practice">Practice sheet</a>, Dataset 3 (Q12–23). Focus on the 3-mark conclusions.</div></li>
+    <li data-from="10:45" data-to="10:55"><time>10:45 – 10:55</time><div>Break. Water, snack, walk around. Don't skip it.</div></li>
+    <li data-from="10:55" data-to="11:15"><time>10:55 – 11:15</time><div><a href="#examples">Class examples</a>: the deep vs shallow processing graph (L18) and the marking guide from the practice exam (L15).</div></li>
+    <li data-from="11:15" data-to="11:30"><time>11:15 – 11:30</time><div><a href="#quiz">Quick quiz</a> and <a href="#brain">Brain &amp; memory</a> reasoning bank.</div></li>
+    <li data-from="11:30" data-to="11:50"><time>11:30 – 11:50</time><div><a href="#cheatsheet">Cheat sheet</a> read-through. Pack calculator, pens, ruler (for trendlines). Walk in calm.</div></li>
+  </ol>
+
+  <div class="stack">
+    <div class="intro">
+      <span class="eyebrow">What the exam tests</span>
+      <h2>Where the marks are</h2>
+    </div>
+    <div class="bp" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Focus of question</th><th class="num">Marks</th><th>Objective</th><th>Verbs you'll see</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sw" style="background:var(--s1)"></span> Unknown scientific quantities or features of datasets</td><td class="num">~30%</td><td>2 · Apply</td><td>calculate, determine, identify, use</td></tr>
+          <tr><td><span class="sw" style="background:var(--accent)"></span> Trends, patterns, relationships, limitations or uncertainty</td><td class="num">~30%</td><td>3 · Analyse</td><td>categorise, classify, compare, contrast, identify, organise, sequence</td></tr>
+          <tr><td><span class="sw" style="background:var(--pen)"></span> Conclusions based on analysis of datasets</td><td class="num">~40%</td><td>4 · Interpret</td><td>deduce, determine, draw (a conclusion), extrapolate, infer, interpolate, justify, predict</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><b>The biggest chunk (40%) is conclusions.</b> These are the 2–3 mark questions where you need a trend, a statistic (r, p, mean or SD) and psychological reasoning. Practise writing those out in full.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Statistics you must know</h3>
+      <ul>
+        <li><b>Central tendency:</b> mean, median (and mode)</li>
+        <li><b>Dispersion in a sample:</b> range, interquartile range, standard deviation</li>
+        <li><b>Inference about the population:</b> standard error, confidence intervals</li>
+        <li><b>Correlation:</b> Pearson r</li>
+        <li><b>Inferential tests:</b> two-sample t-test (paired and unpaired), p-values</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Five habits that win marks</h3>
+      <ol>
+        <li><b>Show all working</b> for "calculate". Working is usually worth a mark on its own.</li>
+        <li><b>Quote the numbers.</b> "Deep has the greater SD (20.5 vs 11.5)" beats "deep is more spread out".</li>
+        <li><b>Include units</b> (µm, ms, %, hours) and round as asked.</li>
+        <li><b>Compare p to 0.05</b> in writing: "p = 0.01 &lt; 0.05".</li>
+        <li><b>Link to psychology</b> in every 3-mark conclusion: name the brain structure or memory theory.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section data-view="stats" hidden>
+  <div class="intro">
+    <span class="eyebrow">Stats toolkit</span>
+    <h2>Each statistic: what it is, how to get it, how to write it</h2>
+    <p>In the exam you calculate the simple ones (mean, median, range) and <em>interpret</em> the harder ones (SD, r, p), which are usually given to you in a table.</p>
+  </div>
+
+  <div class="stack">
+    <h3>Measures of central tendency</h3>
+    <div class="grid2">
+      <div class="card">
+        <div class="eyebrow">Mean (x̄)</div>
+        <p>The average. Add every score and divide by how many there are.</p>
+        <div class="formula">x̄ = (x₁ + x₂ + … + xₙ) ÷ n</div>
+        <p><b>Example (L15):</b> (15 + 22 + 27 + 31 + 36 + 39 + 47) ÷ 7 = 217 ÷ 7 = <b>31</b></p>
+        <p class="pen">[1] working &nbsp;[1] answer</p>
+        <p><b>Trap:</b> the mean is pulled toward outliers. One huge or tiny value changes it a lot.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Median</div>
+        <p>The middle score once the data is <mark>in order</mark>.</p>
+        <ul>
+          <li><b>Odd n:</b> the middle value, at position (n + 1) ÷ 2.</li>
+          <li><b>Even n:</b> average the two middle values.</li>
+        </ul>
+        <p><b>Example:</b> 9, 3, 8, 2, 6, 2 → 2, 2, <b>3, 6</b>, 8, 9 → (3 + 6) ÷ 2 = <b>4.5</b></p>
+        <p><b>Why use it:</b> not affected by outliers, so it's better than the mean when data has extreme values.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Mode</div>
+        <p>The most frequent score. A dataset can have no mode or more than one.</p>
+        <p><b>Example (L15 Q6):</b> participants 3, 7 and 10 all smoked 13 cigarettes, the highest value. When several people share a value, name all of them.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <h3>Reading the mean formula: what x₁ + x₂ + … means</h3>
+    <div class="card">
+      <div class="formula">x̄ = (x₁ + x₂ + … + xₙ) ÷ n</div>
+      <div class="tbl"><table>
+        <thead><tr><th>Symbol</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">x₁, x₂, x₃ …</td><td>Your scores, one by one. The small number just counts which score it is: x₁ is the 1st, x₂ the 2nd, x₃ the 3rd.</td></tr>
+          <tr><td class="mono">…</td><td>Keep going through all the scores.</td></tr>
+          <tr><td class="mono">xₙ</td><td>The last score.</td></tr>
+          <tr><td class="mono">n</td><td>How many scores there are. Count them.</td></tr>
+          <tr><td class="mono">x̄</td><td>"x-bar", the mean.</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>The numbers go up to however many scores there are.</b> That last number is n.</p>
+      <ul>
+        <li>Dataset 1 (motor neurons): 11 participants → x₁ to x₁₁, n = 11</li>
+        <li>Dataset 3 (TV): 6 participants → x₁ to x₆, n = 6</li>
+        <li>L15 stress example: 7 categories → x₁ to x₇, n = 7</li>
+      </ul>
+      <p><b>Example with 4 scores</b> (10, 12, 8, 14):</p>
+      <div class="formula">x̄ = (x₁ + x₂ + x₃ + x₄) ÷ 4 = (10 + 12 + 8 + 14) ÷ 4 = 44 ÷ 4 = 11</div>
+      <p class="note">In the exam you don't write the x₁, x₂ labels. Write the real numbers: "(10 + 12 + 8 + 14) ÷ 4 = 44 ÷ 4 = 11". That is full working for both marks. Before dividing, check that the count of numbers you added matches n.</p>
+    </div>
+  </div>
+
+  <div class="stack">
+    <h3>Measures of dispersion (spread, variability, uncertainty)</h3>
+    <p class="note"><b>Dispersion</b> describes how much the data values differ from each other and from the mean. More spread means <b>more variability</b> and <b>more uncertainty</b>, so the data is less consistent.</p>
+    <div class="grid2">
+      <div class="card">
+        <div class="eyebrow">Range</div>
+        <div class="formula">Range = highest − lowest</div>
+        <p><b>"Sequence from least to greatest variability":</b> calculate the range of each subgroup, then list them smallest → largest, showing each value.</p>
+        <p class="warn"><b>Seen twice in your class material:</b> sometimes every subgroup has the <b>same range</b> (L15 Q7: all = 2; practice Q15: all = 14). Then the answer is "they have <b>equal variability</b>". Show each calculation.</p>
+        <p><b>Trap:</b> range uses only two numbers, so one outlier distorts it.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Interquartile range (IQR)</div>
+        <div class="formula">IQR = Q3 − Q1</div>
+        <ol>
+          <li>Put the data in order.</li>
+          <li>Find the median; split the data into a lower and upper half (leave the median out if n is odd).</li>
+          <li>Q1 = median of the lower half; Q3 = median of the upper half.</li>
+        </ol>
+        <p>The spread of the <b>middle 50%</b>. Not affected by outliers.</p>
+        <p><b>Example:</b> 2, 4, 5, 7, 9, 11, 12 → lower 2, 4, 5 (Q1 = 4); upper 9, 11, 12 (Q3 = 11); IQR = <b>7</b>.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Standard deviation (SD)</div>
+        <p>The average distance of scores from the mean. <b>Usually given</b>; you interpret it.</p>
+        <div class="formula">s = √[ Σ(x − x̄)² ÷ (n − 1) ]</div>
+        <ul>
+          <li><b>Larger SD</b> = scores spread further from the mean = more variability, more uncertainty, less consistent.</li>
+          <li><b>Smaller SD</b> = scores clustered around the mean = more consistent, more reliable.</li>
+        </ul>
+        <p><b>Model answer:</b> "Deep processing has the greatest dispersion (SD = 20.5) compared with shallow (SD = 11.5), a difference of 9."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <h3>Using a sample to make an inference about the population</h3>
+    <div class="grid2">
+      <div class="card">
+        <div class="eyebrow">Standard error (SE)</div>
+        <div class="formula">SE = SD ÷ √n</div>
+        <p>How far the <b>sample mean</b> is likely to be from the true <b>population mean</b>.</p>
+        <ul>
+          <li>Smaller SE = more precise estimate of the population mean.</li>
+          <li><b>Bigger sample (n) → smaller SE.</b> This is why small samples (like N = 6) are a limitation.</li>
+        </ul>
+        <p><b>Example:</b> SD = 12, n = 9 → SE = 12 ÷ 3 = <b>4</b></p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">95% confidence interval (CI)</div>
+        <div class="formula">95% CI = x̄ ± 1.96 × SE &nbsp;(≈ x̄ ± 2 × SE)</div>
+        <p>The range we are <b>95% confident contains the true population mean</b>.</p>
+        <ul>
+          <li><b>Narrow CI</b> = less uncertainty. <b>Wide CI</b> = more uncertainty.</li>
+          <li>If two conditions' CIs <b>don't overlap</b>, the difference is likely to be real (significant). If they <b>overlap a lot</b>, it may be due to chance.</li>
+        </ul>
+        <p><b>Example:</b> x̄ = 50, SE = 4 → 50 ± 7.84 → <b>42.16 to 57.84</b></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <h3>Relationships and significance</h3>
+    <div class="grid2">
+      <div class="card">
+        <div class="eyebrow">Pearson's correlation coefficient (r)</div>
+        <p>Measures the <b>direction</b> and <b>strength</b> of a <b>linear</b> relationship between two variables. Ranges from −1 to +1.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>|r| value</th><th>Strength</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">0.7 – 1.0</td><td>Strong</td></tr>
+            <tr><td class="mono">0.4 – 0.69</td><td>Moderate</td></tr>
+            <tr><td class="mono">0.1 – 0.39</td><td>Weak</td></tr>
+            <tr><td class="mono">below 0.1</td><td>None / negligible</td></tr>
+          </tbody>
+        </table></div>
+        <ul>
+          <li><b>Sign = direction.</b> + means both rise together; − means one rises as the other falls.</li>
+          <li><b>Size = strength.</b> Ignore the sign when comparing: <b>−0.89 is stronger than +0.72</b>.</li>
+          <li>Correlation does <b>not</b> prove causation. That's why conclusions say "<b>may</b> affect".</li>
+        </ul>
+        <p class="eyebrow" style="margin-top:4px">Strength bands vary slightly between textbooks. Use your teacher's if different.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">p-value (statistical significance)</div>
+        <p>The probability that the result happened <b>by chance</b>. Compare it to <b>0.05</b>.</p>
+        <div class="tbl"><table>
+          <tbody>
+            <tr><td class="mono">p &lt; 0.05</td><td><b>Statistically significant.</b> Unlikely to be due to chance. Reject the null hypothesis.</td></tr>
+            <tr><td class="mono">p ≥ 0.05</td><td><b>Not significant.</b> Could be due to chance. Retain the null hypothesis.</td></tr>
+          </tbody>
+        </table></div>
+        <p><b>Model answer (2 marks):</b> "There is a statistically significant difference between deep and shallow processing, as p = 0.01 &lt; 0.05 <span class="pen">[1]</span>, meaning the difference in test performance is unlikely to be due to chance <span class="pen">[1]</span>."</p>
+        <p class="warn">The L15 slides wrote "0.003 &lt; 0.005". The cut-off you compare to is <b>0.05</b> unless the question says otherwise.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">t-tests: paired or unpaired?</div>
+        <p>A t-test checks whether the difference between <b>two means</b> is significant (it gives the p-value).</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Paired t-test</th><th>Unpaired t-test</th></tr></thead>
+          <tbody><tr>
+            <td><b>Same participants</b> do both conditions (repeated measures). Two sets of scores from the same people.</td>
+            <td><b>Different participants</b> in each condition (independent groups design).</td>
+          </tr><tr>
+            <td>e.g. the same students recall words in silence <i>and</i> with music; the same 6 students watch educative <i>and</i> non-educative TV.</td>
+            <td>e.g. a Controlled Group and a separate Test Group of smokers.</td>
+          </tr></tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Trends on graphs</div>
+        <ul>
+          <li><b>Positive:</b> as X increases, Y increases.</li>
+          <li><b>Negative:</b> as X increases, Y decreases.</li>
+          <li><b>Linear:</b> points follow roughly a straight line.</li>
+          <li><b>Rate:</b> a steeper line increases or decreases <b>faster</b>.</li>
+          <li><b>Interpolate</b> = read a value <i>inside</i> the data range. <b>Extrapolate</b> = extend the trend <i>beyond</i> it.</li>
+          <li><b>Outlier:</b> a value far from the rest (e.g. 1300 µm in Dataset 1).</li>
+        </ul>
+        <p><b>Prediction hint from class:</b> draw a straight trendline from the <b>first</b> to the <b>last</b> data point and extend it, even if a line is already drawn.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <h3>Limitations and uncertainty (for "identify a limitation" questions)</h3>
+    <div class="card">
+      <ul>
+        <li><b>Small sample size</b> (e.g. N = 6) → results may not generalise to the population; larger SE, wider CI.</li>
+        <li><b>Outliers</b> distort the mean and range.</li>
+        <li><b>Large SD</b> → high variability, less consistent and less reliable results.</li>
+        <li><b>Correlation ≠ causation</b>; other (confounding) variables may explain the relationship.</li>
+        <li><b>p ≥ 0.05</b> → difference may be due to chance.</li>
+        <li><b>Overlapping CIs</b> → the conditions may not really differ.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="stack">
+    <div class="intro">
+      <span class="eyebrow">Practice tool</span>
+      <h3>Stats calculator that shows the working</h3>
+      <p>Pre-loaded with Dataset 1 (motor neuron lengths). Type your own numbers to check practice answers. Separate values with commas or spaces.</p>
+    </div>
+    <div class="card calc">
+      <label for="calc-in" class="eyebrow">Data</label>
+      <input type="text" id="calc-in" value="900, 860, 780, 720, 890, 810, 850, 730, 800, 1300, 540">
+      <div class="out" id="calc-out"></div>
+    </div>
+    <div class="grid2">
+      <div class="card tool">
+        <label for="r-in" class="eyebrow">Read an r value</label>
+        <input id="r-in" type="text" value="-0.96">
+        <p class="res" id="r-out"></p>
+      </div>
+      <div class="card tool">
+        <label for="p-in" class="eyebrow">Read a p-value</label>
+        <input id="p-in" type="text" value="0.042">
+        <p class="res" id="p-out"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VERBS ============ -->
+<section data-view="verbs" hidden>
+  <div class="intro">
+    <span class="eyebrow">Cognitive verbs</span>
+    <h2>Answer exactly what the verb asks</h2>
+    <p>The verb tells you how much to write. "Identify" needs one line; "draw a conclusion" needs evidence plus reasoning. Examples come from your class material.</p>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Verb</th><th>What they want</th><th>Model answer from class</th></tr></thead>
+      <tbody>
+        <tr><td><span class="verb">Calculate</span></td><td>Work it out mathematically. <b>Show all working</b>, give units, round as asked.</td><td>Median: 2, 10, 11, 11, 11, 12, <b>12, 12</b>, 12, 13, 13, 13 → (12 + 12) ÷ 2 <span class="pen">[1]</span> = 12 <span class="pen">[1]</span></td></tr>
+        <tr><td><span class="verb">Identify</span></td><td>Recognise and name. <b>No explanation needed</b>, but quote the value.</td><td>"Category 1 has the lowest perceived stress score at 15/50." <span class="pen">[1]</span></td></tr>
+        <tr><td><span class="verb">Determine</span></td><td>Work out an answer using the data, a graph or reasoning (often reading a value off a graph).</td><td>Condition 3 mean ≈ 74–75% (any value in the acceptable range) <span class="pen">[1]</span></td></tr>
+        <tr><td><span class="verb">Use</span></td><td>Apply the given formula, table or graph to get a value.</td><td>"Using Figure 1, determine reaction time for 6 hours of sleep" → read across from the trend.</td></tr>
+        <tr><td><span class="verb">Contrast</span></td><td>State the <b>differences</b>: give both values, or the size of the difference.</td><td>"Previous research r = 0.88, whereas current research increased to 0.94." OR "a difference of 0.06" <span class="pen">[1]</span></td></tr>
+        <tr><td><span class="verb">Compare</span></td><td>Similarities <b>and</b> differences.</td><td>"Both conditions increase, but deep processing scores are higher at every point."</td></tr>
+        <tr><td><span class="verb">Sequence</span></td><td>Arrange in order, showing the values.</td><td>Groups 1–4, 5–7, 8–10: 8 − 6 = 2 each → "equal variability" <span class="pen">[1]</span></td></tr>
+        <tr><td><span class="verb">Distinguish</span></td><td>Say how two trends differ: <b>direction</b> (positive vs negative) and/or <b>rate</b> (which changes faster).</td><td>"While both increase, complex-sentence performance increased at a faster rate than single-word reading." <span class="pen">[1]</span></td></tr>
+        <tr><td><span class="verb">Categorise</span> <span class="verb">Classify</span></td><td>Put items into groups based on shared features.</td><td>"r = −0.89 is a strong negative correlation."</td></tr>
+        <tr><td><span class="verb">Organise</span></td><td>Arrange information into a clear structure (e.g. a table or ordered list).</td><td>Order conditions from lowest to highest mean.</td></tr>
+        <tr><td><span class="verb">Predict</span> <span class="verb">Extrapolate</span></td><td>Estimate a value <b>beyond</b> the data by extending the trend. Show reasoning.</td><td>Draw a line from the first to the last point and extend it: complex ≈ 98% (96–100) <span class="pen">[1]</span>, single word ≈ 100% (95–105) <span class="pen">[1]</span></td></tr>
+        <tr><td><span class="verb">Interpolate</span></td><td>Estimate a value <b>within</b> the data range.</td><td>Read the y-value at a given x between two plotted points.</td></tr>
+        <tr><td><span class="verb">Infer</span> <span class="verb">Deduce</span></td><td>Reach a conclusion from the evidence that isn't directly stated.</td><td>"Because r is strongly negative, more sleep is associated with faster reactions."</td></tr>
+        <tr><td><span class="verb">Justify</span></td><td>Give reasons and evidence for a claim.</td><td>"The difference is significant because p = 0.02 &lt; 0.05."</td></tr>
+        <tr><td><span class="verb">Draw a conclusion</span></td><td>Make a judgement based on evidence: <b>trend + data + psychological reasoning</b>.</td><td>See the formula below.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stack">
+    <div class="intro">
+      <span class="eyebrow">The 40% section</span>
+      <h2>How to write "draw a conclusion"</h2>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="eyebrow">1 · Trend</div>
+        <p>State the relationship <b>with numbers from the graph</b>.</p>
+        <p class="use">"As weekly hours studied increase, mean test scores increase (from ~25% at 1 hour to ~90% at 7 hours)."</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">2 · Data</div>
+        <p>Back it up with <b>r</b> (strength and direction) and/or <b>p</b> (significance), means or SD.</p>
+        <p class="use">"This is supported by a strong positive correlation (r = +0.96)."</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">3 · Reasoning</div>
+        <p>Explain <b>why</b> using psychology: a brain structure or memory theory.</p>
+        <p class="use">"Deep processing enhances semantic encoding, which strengthens memory traces, leading to higher recall (Craik &amp; Lockhart)."</p>
+      </div>
+    </div>
+    <p class="note"><b>Read what the question is asking about.</b> In L18 three "conclusion" questions used the same graph but wanted different things:</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Question says…</th><th>Look at</th><th>Include</th></tr></thead>
+      <tbody>
+        <tr><td>"…how <b>deep processing</b> may affect test scores" (3 marks)</td><td>One condition only</td><td>Trend + r + psych reasoning</td></tr>
+        <tr><td>"…the <b>statistical significance</b> of differences between the two conditions" (2 marks)</td><td>The p-value</td><td>p compared to 0.05 + "significant / unlikely due to chance"</td></tr>
+        <tr><td>"…the relationship between <b>hours studied</b> and score" (2 marks)</td><td>Both lines together, the overall pattern</td><td>Overall direction + r</td></tr>
+        <tr><td>"…how the <b>conditions differ</b>"</td><td>Means, SDs, p</td><td>Mean and SD of each + p-value</td></tr>
+        <tr><td>"…language practice as a <b>whole</b>"</td><td>All conditions</td><td>Which task is higher overall + overall trend + r</td></tr>
+      </tbody>
+    </table></div>
+    <div class="card">
+      <div class="eyebrow">Sentence starters</div>
+      <ul>
+        <li>"Figure 1 shows a <b>positive/negative</b> trend: as ___ increases, ___ increases/decreases (from ___ to ___)."</li>
+        <li>"This is supported by a <b>strong positive/negative correlation</b> (r = ___)."</li>
+        <li>"The result is <b>statistically significant</b> (p = ___ &lt; 0.05), so it is unlikely to be due to chance."</li>
+        <li>"This may occur because the <b>[brain structure / memory process]</b> is responsible for ___, so ___."</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRACTICE ============ -->
+<section data-view="practice" hidden>
+  <div class="intro">
+    <span class="eyebrow">IA1 Data Test Additional Practice</span>
+    <h2>Your practice sheet, with worked answers</h2>
+    <p>Write your answer in the box (it's saved in this browser), then open the model answer and give yourself a mark. Answers marked <b>≈</b> are read off a graph, so a nearby value is fine.</p>
+  </div>
+  <div class="scorebar">
+    <span>Self-marked: <b id="score">0 / 32</b> <span id="score-n" class="eyebrow"></span></span>
+    <div class="meter" aria-hidden="true"><i id="score-bar"></i></div>
+    <button class="btn" id="reset-marks" type="button">Clear marks</button>
+  </div>
+
+  <div class="ds">
+    <div class="ds-head">
+      <span class="eyebrow">Dataset 1</span>
+      <h3>Motor neuron length</h3>
+      <p>Neuroscientists measured the lengths of motor neurons in 11 participants aged 10–20.</p>
+    </div>
+    <div class="tbl"><table>
+      <caption>Table 1: Raw data for motor neuron length</caption>
+      <thead><tr><th>Participant</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th><th class="num">7</th><th class="num">8</th><th class="num">9</th><th class="num">10</th><th class="num">11</th></tr></thead>
+      <tbody><tr><th>Length (µm)</th><td class="num">900</td><td class="num">860</td><td class="num">780</td><td class="num">720</td><td class="num">890</td><td class="num">810</td><td class="num">850</td><td class="num">730</td><td class="num">800</td><td class="num">1300</td><td class="num">540</td></tr></tbody>
+    </table></div>
+    <div id="ds1" class="stack"></div>
+  </div>
+
+  <div class="ds">
+    <div class="ds-head">
+      <span class="eyebrow">Dataset 2</span>
+      <h3>Reaction time and hours of sleep</h3>
+      <p>Researchers investigated the relationship between reaction time and hours of sleep in 20 participants.</p>
+    </div>
+    <div class="tbl"><table>
+      <caption>Table 2: Descriptive and inferential statistics</caption>
+      <thead><tr><th></th><th class="num">Reaction time (ms)</th><th class="num">Hours of sleep</th></tr></thead>
+      <tbody>
+        <tr><th>Mean</th><td class="num">271.5</td><td class="num">6.29</td></tr>
+        <tr><th>Median</th><td class="num">275.54</td><td class="num">6.02</td></tr>
+        <tr><th>Mode</th><td class="num">256.95</td><td class="num">4.78</td></tr>
+        <tr><th>Range</th><td class="num">101.05</td><td class="num">4.75</td></tr>
+        <tr><th>Standard deviation</th><td class="num">33.6</td><td class="num">1.54</td></tr>
+        <tr><th>p-value</th><td class="num" colspan="2">0.042</td></tr>
+        <tr><th>r-value</th><td class="num" colspan="2">−0.96</td></tr>
+      </tbody>
+    </table></div>
+    <div class="chart">
+      <div class="ctitle">Figure 1: Reaction time vs hours of sleep</div>
+      <div id="fig1"></div>
+      <div class="chart-ctl"><button class="btn" type="button" data-trend="fig1" aria-pressed="false">Show line of best fit</button><span class="eyebrow" style="align-self:center">Points re-plotted from your sheet (approximate)</span></div>
+    </div>
+    <div id="ds2" class="stack"></div>
+  </div>
+
+  <div class="ds">
+    <div class="ds-head">
+      <span class="eyebrow">Dataset 3</span>
+      <h3>Educative vs non-educative TV and achievement</h3>
+      <p>Six students (N = 6) watched the same number of TV hours under two conditions: educative and non-educative (e.g. cartoons). Achievement is out of 100. Hypothesis: students who watch more educative TV achieve higher scores than those who watch the same amount of non-educative TV.</p>
+    </div>
+    <div class="tbl"><table>
+      <caption>Table 3: TV hours and achievement score</caption>
+      <thead><tr><th>Participant</th><th class="num">Hours watched</th><th class="num">Achievement (educative)</th><th class="num">Achievement (non-educative)</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="num">2</td><td class="num">60</td><td class="num">48</td></tr>
+        <tr><td>2</td><td class="num">3</td><td class="num">68</td><td class="num">44</td></tr>
+        <tr><td>3</td><td class="num">4</td><td class="num">74</td><td class="num">40</td></tr>
+        <tr><td>4</td><td class="num">5</td><td class="num">80</td><td class="num">36</td></tr>
+        <tr><td>5</td><td class="num">8</td><td class="num">88</td><td class="num">30</td></tr>
+        <tr><td>6</td><td class="num">10</td><td class="num">94</td><td class="num">24</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl"><table>
+      <caption>Table 4: Inferential statistics</caption>
+      <thead><tr><th>TV type</th><th class="num">Standard deviation</th><th class="num">r-value</th><th class="num">p-value</th></tr></thead>
+      <tbody>
+        <tr><td>Educative</td><td class="num">12.63</td><td class="num">0.75</td><td class="num">0.04</td></tr>
+        <tr><td>Non-educative</td><td class="num">8.92</td><td class="num">−0.991</td><td class="num">0.02</td></tr>
+      </tbody>
+    </table></div>
+    <div class="chart">
+      <div class="ctitle">Figure 2: TV hours per week and achievement</div>
+      <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Educative TV</span><span><i class="sw sq" style="background:var(--s2)"></i>Non-educative TV</span></div>
+      <div id="fig2"></div>
+      <div class="chart-ctl"><button class="btn" type="button" data-trend="fig2" aria-pressed="false">Show first-to-last trendlines (Q20)</button></div>
+    </div>
+    <div id="ds3" class="stack"></div>
+  </div>
+</section>
+
+<!-- ============ EXAMPLES ============ -->
+<section data-view="examples" hidden>
+  <div class="intro">
+    <span class="eyebrow">L18 Revision</span>
+    <h2>Deep vs shallow processing: five questions, one graph</h2>
+    <p>Students studied using deep processing (examples) or shallow processing (definitions) for different weekly hours. Same graph, different questions. Notice what each one asks you to look at.</p>
+  </div>
+  <div class="chart">
+    <div class="ctitle">Mean test score (%) by weekly hours studied</div>
+    <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Deep processing (examples)</span><span><i class="sw sq" style="background:var(--s2)"></i>Shallow processing (definitions)</span></div>
+    <div id="fig3"></div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Statistic</th><th class="num">Deep</th><th class="num">Shallow</th></tr></thead>
+    <tbody>
+      <tr><td>Standard deviation</td><td class="num">20.5</td><td class="num">11.5</td></tr>
+      <tr><td>Pearson r (hours vs score)</td><td class="num">+0.96</td><td class="num">–</td></tr>
+      <tr><td>p-value (deep, hours vs score)</td><td class="num">0.03</td><td class="num">–</td></tr>
+      <tr><td>p-value (difference between conditions)</td><td class="num" colspan="2">0.01</td></tr>
+    </tbody>
+  </table></div>
+  <div id="l18" class="stack"></div>
+
+  <div class="intro">
+    <span class="eyebrow">L15 Practice exam review</span>
+    <h2>The marking guide, question by question</h2>
+    <p>Your practice exam used three datasets: perceived stress and amygdala activation, cigarette smoking (Controlled vs Test group), and language practice (complex sentences vs single-word reading). These are the model answers and where each mark came from.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Q</th><th>Verb</th><th>Question</th><th>Model answer and marks</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="verb">Calculate</span></td><td>Mean perceived stress score. Show working.</td><td>(15 + 22 + 27 + 31 + 36 + 39 + 47) ÷ 7 = 217 ÷ 7 <span class="pen">[1]</span> = 31 <span class="pen">[1]</span></td></tr>
+      <tr><td>2</td><td><span class="verb">Contrast</span></td><td>Stress of category 2 vs category 7.</td><td>Category 2 mean was 22/50 whereas category 7 was 47/50. OR the difference is 25. <span class="pen">[1]</span></td></tr>
+      <tr><td>3</td><td><span class="verb">Identify</span></td><td>Category with lowest perceived stress.</td><td>Category 1, at 15/50. <span class="pen">[1]</span></td></tr>
+      <tr><td>4</td><td><span class="verb">Contrast</span></td><td>Correlation coefficients, previous vs current research.</td><td>Previous r = 0.88, whereas current research increased to 0.94. OR the difference is 0.06. <span class="pen">[1]</span></td></tr>
+      <tr><td>5</td><td><span class="verb">Draw a conclusion</span></td><td>How amygdala activation may affect perceived stress (3 marks).</td><td>Figure 1 shows a positive upward trend: as amygdala activation increases, perceived stress also increases <span class="pen">[1]</span>. The current research shows a strong positive correlation (r = 0.94), indicating consistent results <span class="pen">[1]</span>. This occurs because the amygdala detects emotional and threatening stimuli; when it is more active it triggers the stress response and increases the release of stress hormones <span class="pen">[1]</span>.</td></tr>
+      <tr><td>6</td><td><span class="verb">Identify</span></td><td>Controlled Group participant who smoked the most.</td><td>Participants 3, 7 and 10 (13 cigarettes each). <span class="pen">[1]</span></td></tr>
+      <tr><td>7</td><td><span class="verb">Sequence</span></td><td>Range of Test Group subgroups 1–4, 5–7, 8–10, least to greatest variability.</td><td>Each: 8 − 6 = 2. They have an equal amount of variability. <span class="pen">[1]</span></td></tr>
+      <tr><td>8</td><td><span class="verb">Calculate</span></td><td>Median for the Controlled Group.</td><td>2, 10, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13 → (12 + 12) ÷ 2 <span class="pen">[1]</span> = 12 <span class="pen">[1]</span></td></tr>
+      <tr><td>9</td><td><span class="verb">Identify</span></td><td>Condition with greatest dispersion.</td><td>The Controlled Group shows greater variability (SD = 2.98) than the Test Group (SD = 0.90). Naming the Controlled Group alone earned the mark. <span class="pen">[1]</span></td></tr>
+      <tr><td>10</td><td><span class="verb">Identify</span></td><td>Why an unpaired t-test is appropriate.</td><td>It is an independent groups design (different participants in each condition). <span class="pen">[1]</span></td></tr>
+      <tr><td>11</td><td><span class="verb">Draw a conclusion</span></td><td>Statistical significance of differences between the two conditions (2 marks).</td><td>The Controlled Group smoked more on average (mean 11, SD 2.98) while the Test Group smoked less (mean 6.9, SD 0.90) <span class="pen">[1]</span>. p = 0.003 &lt; 0.05, so the result is statistically significant and unlikely due to chance <span class="pen">[1]</span>.</td></tr>
+      <tr><td>12</td><td><span class="verb">Determine</span></td><td>Mean % of correctly identified complex sentences, Condition 3.</td><td>≈ 74–75% (acceptable within that range). <span class="pen">[1]</span></td></tr>
+      <tr><td>13</td><td><span class="verb">Identify</span></td><td>Relationship between weekly language practice and complex-sentence accuracy.</td><td>Linear and positive. <span class="pen">[1]</span></td></tr>
+      <tr><td>14</td><td><span class="verb">Distinguish</span></td><td>Trends for complex sentences vs single-word reading.</td><td>While both increase, complex-sentence performance increased at a faster rate than single-word reading. <span class="pen">[1]</span></td></tr>
+      <tr><td>15</td><td><span class="verb">Predict</span></td><td>Condition 8 (16–18 hours/week), both tasks (2 marks).</td><td>Draw a straight trendline from first to last point and extend it. Complex ≈ 98% (allow 96–100) <span class="pen">[1]</span>. Single word ≈ 100% (allow 95–105) <span class="pen">[1]</span>.</td></tr>
+      <tr><td>16</td><td><span class="verb">Draw a conclusion</span></td><td>Relationship between weekly language practice and task accuracy, as a whole (max 2 marks).</td><td>Any two: single-word reading was more accurate than complex sentences in every condition, so simple language tasks are easier <span class="pen">[1]</span>; as weekly hours increased, accuracy for <b>both</b> tasks increased (positive) <span class="pen">[1]</span>; strong positive relationship (r = +0.98) <span class="pen">[1]</span>.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section data-view="quiz" hidden>
+  <div class="intro">
+    <span class="eyebrow">Quick-fire</span>
+    <h2>Quiz: stats, verbs and the brain</h2>
+    <p>Includes every question from the L18 revision slides. Click an answer to see if you're right and why.</p>
+  </div>
+  <div class="scorebar">
+    <span>Score: <b id="qscore">0 / 0</b></span>
+    <button class="btn" id="qreset" type="button">Restart quiz</button>
+  </div>
+  <div id="quizbox" class="stack"></div>
+</section>
+
+<!-- ============ BRAIN ============ -->
+<section data-view="brain" hidden>
+  <div class="intro">
+    <span class="eyebrow">Psychological reasoning bank</span>
+    <h2>Brain &amp; memory facts for your third mark</h2>
+    <p>Every 3-mark conclusion needs a "this may occur because…" sentence. Pick the structure or theory that matches the dataset, state its function, and link it to the result.</p>
+  </div>
+
+  <div class="stack">
+    <h3>Memory: levels of processing</h3>
+    <div class="card">
+      <p><b>Craik &amp; Lockhart (1972):</b> how deeply information is processed determines how well it is remembered.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Level</th><th>Focus</th><th>Example task</th><th>Memory</th></tr></thead>
+        <tbody>
+          <tr><td><b>Structural</b> (shallowest)</td><td>Appearance</td><td>Is the word in capital letters?</td><td>Weakest</td></tr>
+          <tr><td><b>Phonological</b></td><td>Sound</td><td>Does "lake" rhyme with "cake"?</td><td>Medium</td></tr>
+          <tr><td><b>Semantic</b> (deepest)</td><td>Meaning</td><td>Does "apple" fit "she packed an __ for lunch"?</td><td>Strongest</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>Craik &amp; Tulving (1975)</b> tested this: words processed for meaning (semantic) were recalled best.</p>
+      <p class="use">Use it for: study methods, deep vs shallow, educative vs non-educative content. "Deep (semantic) processing creates stronger, more durable memory traces, so recall and test scores are higher."</p>
+    </div>
+    <div class="card">
+      <p><b>Multi-store model (Atkinson &amp; Shiffrin, 1968):</b> sensory memory → (attention) → short-term memory (about 18–30 seconds, 7 ± 2 items) → (encoding / rehearsal) → long-term memory.</p>
+      <ul>
+        <li><b>Maintenance rehearsal:</b> repeating information to keep it in STM (shallow).</li>
+        <li><b>Elaborative rehearsal:</b> linking new information to meaning and existing knowledge (deep), which transfers it to LTM.</li>
+        <li><b>Retrieval:</b> bringing stored information back into conscious awareness.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="stack">
+    <h3>Brain structures</h3>
+    <div class="grid2">
+      <div class="card bcard">
+        <h3>Basal ganglia <span class="loc">deep in the forebrain</span></h3>
+        <p><b>Selects and initiates intended voluntary movements</b> and <b>inhibits competing (unwanted) movements</b>. Also involved in procedural / habit memory.</p>
+        <p class="use">Disruption → <b>more competing movements</b>, difficulty starting the intended movement.</p>
+      </div>
+      <div class="card bcard">
+        <h3>Cerebellum <span class="loc">hindbrain, back of the brain</span></h3>
+        <p>Coordinates <b>timing, balance, posture and fine motor movement</b>. Stores <b>implicit procedural memories</b> (skills) and classically conditioned motor responses.</p>
+        <p class="use">Use for: motor skill accuracy, coordination, reaction-based tasks.</p>
+      </div>
+      <div class="card bcard">
+        <h3>Primary motor cortex <span class="loc">frontal lobe</span></h3>
+        <p><b>Initiates voluntary movement</b> by sending messages via motor neurons to skeletal muscles. Each hemisphere controls the opposite side of the body.</p>
+      </div>
+      <div class="card bcard">
+        <h3>Hippocampus <span class="loc">medial temporal lobe</span></h3>
+        <p><b>Encodes and consolidates new explicit (declarative) memories</b>, transferring them to long-term memory. Also spatial memory.</p>
+        <p class="use">Damage → can't form new explicit memories (anterograde amnesia), so <b>poorer recall of new events</b>.</p>
+      </div>
+      <div class="card bcard">
+        <h3>Amygdala <span class="loc">medial temporal lobe</span></h3>
+        <p><b>Detects emotional and threatening stimuli</b> and triggers the fear / stress response (more stress hormones). Strengthens consolidation of emotional memories.</p>
+        <p class="use">"When the amygdala is more active, it triggers the stress response and increases the release of stress hormones, so perceived stress rises."</p>
+      </div>
+      <div class="card bcard">
+        <h3>Prefrontal cortex <span class="loc">front of the frontal lobe</span></h3>
+        <p><b>Working memory, attention, planning and decision-making.</b> Its function is reduced by sleep loss.</p>
+        <p class="use">Use for sleep / attention data: "with less sleep, alertness and attention are reduced, so information is processed more slowly."</p>
+      </div>
+      <div class="card bcard">
+        <h3>Language areas <span class="loc">left hemisphere</span></h3>
+        <p><b>Broca's area</b> (frontal): speech production. <b>Wernicke's area</b> (temporal): language comprehension.</p>
+        <p class="use">Practice strengthens neural pathways (neuroplasticity), so accuracy rises with more hours of practice.</p>
+      </div>
+      <div class="card bcard">
+        <h3>Sensory cortices</h3>
+        <p><b>Primary visual cortex</b> (occipital lobe): vision. <b>Primary auditory cortex</b> (temporal lobe): hearing. <b>Somatosensory cortex</b> (parietal lobe): touch and body sensation.</p>
+      </div>
+      <div class="card bcard">
+        <h3>Neurons <span class="loc">nervous system</span></h3>
+        <ul>
+          <li><b>Sensory neurons</b> carry information from receptors to the CNS.</li>
+          <li><b>Interneurons</b> relay messages within the CNS.</li>
+          <li><b>Motor neurons</b> carry messages from the CNS to muscles and glands.</li>
+        </ul>
+        <p class="use">Reaction time = sensory input → brain processing → motor output. Anything that slows processing (e.g. tiredness) slows reaction time.</p>
+      </div>
+    </div>
+  </div>
+  <p class="note">These are reminders, not new content. If your teacher worded a function differently, use their wording in the exam.</p>
+</section>
+
+<!-- ============ CHEAT SHEET ============ -->
+<section data-view="cheatsheet" hidden>
+  <div class="intro">
+    <span class="eyebrow">Last read before you walk in</span>
+    <h2>Cheat sheet</h2>
+  </div>
+  <div class="cheat">
+    <div class="card">
+      <h3>Formulas</h3>
+      <ul>
+        <li><b>Mean</b> = sum ÷ n</li>
+        <li><b>Median</b> = middle value in order (even n: average the two middle)</li>
+        <li><b>Range</b> = highest − lowest</li>
+        <li><b>IQR</b> = Q3 − Q1 (middle 50%)</li>
+        <li><b>SE</b> = SD ÷ √n</li>
+        <li><b>95% CI</b> = mean ± 1.96 × SE (≈ ± 2 SE)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Read the numbers</h3>
+      <ul>
+        <li><b>p &lt; 0.05</b> → significant, unlikely due to chance</li>
+        <li><b>p ≥ 0.05</b> → not significant, could be chance</li>
+        <li><b>r sign</b> = direction; <b>|r| size</b> = strength (≥ 0.7 strong)</li>
+        <li><b>Bigger SD / range / IQR</b> = more dispersion = more variability and uncertainty</li>
+        <li><b>Same people, both conditions</b> → paired t-test</li>
+        <li><b>Different people</b> → unpaired t-test</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Verbs in one line each</h3>
+      <ul>
+        <li><b>Calculate:</b> working + answer + units</li>
+        <li><b>Identify:</b> name it, quote the value, no explanation</li>
+        <li><b>Contrast:</b> both values with "whereas", or the difference</li>
+        <li><b>Sequence:</b> show each value, order least → greatest</li>
+        <li><b>Distinguish:</b> direction and rate of each trend</li>
+        <li><b>Predict:</b> first-to-last trendline, extend, give a value</li>
+        <li><b>Draw a conclusion:</b> trend + data + psychology</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>3-mark conclusion template</h3>
+      <p><span class="pen">[1]</span> "As ___ increases, ___ increases/decreases (from ___ to ___)."</p>
+      <p><span class="pen">[1]</span> "This is a strong positive/negative correlation (r = ___), and is significant (p = ___ &lt; 0.05)."</p>
+      <p><span class="pen">[1]</span> "This may be because [structure/theory] ___, so ___."</p>
+    </div>
+    <div class="card">
+      <h3>Traps</h3>
+      <ul>
+        <li>Forgot to <b>order the data</b> before the median</li>
+        <li>Compared r values <b>by sign</b> instead of size</li>
+        <li>Subgroup ranges all <b>equal</b>? Say "equal variability"</li>
+        <li>Wrote "proves". Use <b>"may"</b> and "suggests"</li>
+        <li>Answered about one condition when asked about <b>both</b> (or the reverse)</li>
+        <li>Several participants share the top value? <b>Name them all</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Before you go in</h3>
+      <ul class="checks" id="checks">
+        <li><label><input type="checkbox" id="c1"> Calculator (charged / batteries)</label></li>
+        <li><label><input type="checkbox" id="c2"> Pens, pencil, ruler for trendlines</label></li>
+        <li><label><input type="checkbox" id="c3"> Water bottle</label></li>
+        <li><label><input type="checkbox" id="c4"> Read every question's verb and mark value first</label></li>
+        <li><label><input type="checkbox" id="c5"> Plan time: about 1 minute per mark</label></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<script>
+(function(){
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const fmt = (x, dp=2) => { if(!isFinite(x)) return '–'; const r = Math.round(x*Math.pow(10,dp))/Math.pow(10,dp); return String(r); };
+
+/* ---------- routing ---------- */
+const views = ['start','stats','verbs','practice','examples','quiz','brain','cheatsheet'];
+function show(v, scroll){
+  if(!views.includes(v)) v = 'start';
+  $$('[data-view]').forEach(s => s.hidden = s.dataset.view !== v);
+  $$('.tabs a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#'+v ? 'page' : 'false'));
+  const cur = $('.tabs a[aria-current="page"]'); if(cur && cur.scrollIntoView) cur.scrollIntoView({block:'nearest', inline:'nearest'});
+  if(scroll) window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', () => show(location.hash.slice(1), true));
+show(location.hash.slice(1), false);
+
+/* ---------- countdown + plan ---------- */
+function toMin(s){ const [h,m] = s.split(':').map(Number); return h*60+m; }
+function tick(){
+  const now = new Date(); const t = new Date(now); t.setHours(11,50,0,0);
+  const ms = t - now; const el = $('#cd');
+  if(ms <= 0){ el.textContent = 'Exam time. Good luck!'; }
+  else {
+    const h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), s = Math.floor(ms%60000/1000);
+    el.textContent = (h ? h+'h ' : '') + String(m).padStart(2,'0') + 'm ' + String(s).padStart(2,'0') + 's left';
+  }
+  const nm = now.getHours()*60 + now.getMinutes();
+  $$('#plan li').forEach(li => {
+    const f = toMin(li.dataset.from), to = toMin(li.dataset.to);
+    li.classList.toggle('now', nm >= f && nm < to);
+    li.classList.toggle('done', nm >= to && nm < 12*60+30);
+  });
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- charts ---------- */
+const charts = {};
+function drawChart(id, cfg){
+  const el = document.getElementById(id); if(!el) return;
+  const W = 640, H = cfg.h || 360, m = {l:62, r:cfg.mr || 20, t:14, b:50};
+  const X = v => m.l + (v - cfg.x[0]) / (cfg.x[1] - cfg.x[0]) * (W - m.l - m.r);
+  const Y = v => H - m.b - (v - cfg.y[0]) / (cfg.y[1] - cfg.y[0]) * (H - m.t - m.b);
+  let g = '';
+  cfg.yt.forEach(v => { g += `<line class="grid-l" x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${m.l-8}" y="${Y(v)+4}" text-anchor="end">${v}</text>`; });
+  cfg.xt.forEach(v => { g += `<line class="grid-l" y1="${m.t}" y2="${H-m.b}" x1="${X(v)}" x2="${X(v)}"/><text class="tick" x="${X(v)}" y="${H-m.b+18}" text-anchor="middle">${v}</text>`; });
+  g += `<line class="axis-l" x1="${m.l}" x2="${W-m.r}" y1="${H-m.b}" y2="${H-m.b}"/><line class="axis-l" x1="${m.l}" x2="${m.l}" y1="${m.t}" y2="${H-m.b}"/>`;
+  g += `<text class="atitle" x="${(m.l + W - m.r)/2}" y="${H-10}" text-anchor="middle">${cfg.xl}</text>`;
+  g += `<text class="atitle" transform="translate(16 ${(m.t + H - m.b)/2}) rotate(-90)" text-anchor="middle">${cfg.yl}</text>`;
+  // trend layer
+  let tr = '';
+  (cfg.trends || []).forEach(t => {
+    tr += `<line class="trend" x1="${X(t.x1)}" y1="${Y(t.y1)}" x2="${X(t.x2)}" y2="${Y(t.y2)}"/>`;
+    (t.marks || []).forEach(p => { tr += `<circle class="pred" cx="${X(p[0])}" cy="${Y(p[1])}" r="6" style="stroke:var(${t.color || '--muted'})"/><text class="dlabel" x="${X(p[0])-10}" y="${Y(p[1]) + (p[2]||-12)}" text-anchor="end">${p[3]}</text>`; });
+  });
+  g += `<g class="trends" ${cfg.trendsHidden ? 'style="display:none"' : ''}>${tr}</g>`;
+  // series
+  const hits = [];
+  cfg.series.forEach(s => {
+    if(s.line){ g += `<polyline fill="none" stroke="var(${s.color})" stroke-width="2" stroke-linejoin="round" points="${s.pts.map(p => X(p[0])+','+Y(p[1])).join(' ')}"/>`; }
+    s.pts.forEach(p => {
+      const cx = X(p[0]), cy = Y(p[1]);
+      if(s.shape === 'sq') g += `<rect x="${cx-5}" y="${cy-5}" width="10" height="10" rx="1.5" fill="var(${s.color})" stroke="var(--surface)" stroke-width="2"/>`;
+      else g += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="var(${s.color})" stroke="var(--surface)" stroke-width="2"/>`;
+      hits.push({cx, cy, tip: `${s.name ? s.name + ': ' : ''}${p[0]} ${cfg.xu} → ${p[1]} ${cfg.yu}`});
+    });
+    if(s.label){ const last = s.pts[s.pts.length-1]; g += `<text class="dlabel" x="${X(last[0])+10}" y="${Y(last[1])+4}">${s.label}</text>`; }
+  });
+  hits.forEach((h,i) => { g += `<circle class="hit" data-i="${i}" cx="${h.cx}" cy="${h.cy}" r="12"/>`; });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${cfg.aria}">${g}</svg>`;
+  const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; el.parentElement.appendChild(tip);
+  const svg = el.querySelector('svg');
+  svg.addEventListener('pointerover', e => {
+    const c = e.target.closest('.hit'); if(!c) return;
+    const h = hits[+c.dataset.i]; const sc = svg.clientWidth / W;
+    const off = svg.getBoundingClientRect(), par = el.parentElement.getBoundingClientRect();
+    tip.textContent = h.tip; tip.hidden = false;
+    tip.style.left = (off.left - par.left + h.cx*sc) + 'px'; tip.style.top = (off.top - par.top + h.cy*sc) + 'px';
+  });
+  svg.addEventListener('pointerout', e => { if(e.target.closest('.hit')) tip.hidden = true; });
+  charts[id] = el;
+}
+
+// Figure 1 points (re-plotted from the worksheet scatterplot)
+const sleep = [[4.1,306.5],[4.3,315],[4.78,319],[4.92,320.5],[4.78,302],[4.92,296],[5.07,296],[5.52,289.5],[5.45,279],[5.87,272.5],[6.17,285],[6.63,257],[7.01,254.5],[7.0,246],[7.55,250.5],[7.67,238],[8.17,231],[8.33,219],[8.77,228],[8.85,227]];
+const n = sleep.length, mx = sleep.reduce((a,p)=>a+p[0],0)/n, my = sleep.reduce((a,p)=>a+p[1],0)/n;
+const slope = sleep.reduce((a,p)=>a+(p[0]-mx)*(p[1]-my),0) / sleep.reduce((a,p)=>a+(p[0]-mx)**2,0);
+const fit = x => my + slope*(x-mx);
+drawChart('fig1', {
+  x:[3.8,9.2], y:[210,330], xt:[4,5,6,7,8,9], yt:[220,240,260,280,300,320],
+  xl:'Hours of sleep', yl:'Reaction time (ms)', xu:'h', yu:'ms', aria:'Scatterplot: reaction time falls as hours of sleep rise',
+  series:[{color:'--s1', pts:sleep}],
+  trends:[{x1:4, y1:fit(4), x2:9, y2:fit(9), color:'--accent', marks:[[6, Math.round(fit(6)), -12, 'at 6 h ≈ ' + Math.round(fit(6)) + ' ms']]}],
+  trendsHidden:true
+});
+drawChart('fig2', {
+  x:[1.5,11.5], y:[0,105], xt:[2,3,4,5,6,7,8,9,10,11], yt:[0,20,40,60,80,100],
+  xl:'Hours of TV watched per week', yl:'Achievement (out of 100)', xu:'h', yu:'/100', aria:'Scatterplot: educative TV rises with hours, non-educative falls',
+  series:[
+    {name:'Educative', color:'--s1', pts:[[2,60],[3,68],[4,74],[5,80],[8,88],[10,94]]},
+    {name:'Non-educative', color:'--s2', shape:'sq', pts:[[2,48],[3,44],[4,40],[5,36],[8,30],[10,24]]}
+  ],
+  trends:[
+    {x1:2, y1:60, x2:11, y2:98.25, color:'--s1', marks:[[11, 98.25, 4, '≈ 98']]},
+    {x1:2, y1:48, x2:11, y2:21, color:'--s2', marks:[[11, 21, 4, '≈ 21']]}
+  ],
+  trendsHidden:true
+});
+drawChart('fig3', {
+  x:[0.7,7.3], y:[0,100], xt:[1,2,3,4,5,6,7], yt:[0,20,40,60,80,100], mr:70,
+  xl:'Weekly hours studied', yl:'Mean test score (%)', xu:'h', yu:'%', aria:'Line chart: deep processing rises faster than shallow',
+  series:[
+    {name:'Deep', color:'--s1', line:true, label:'Deep', pts:[[1,25],[2,35],[3,48],[4,60],[5,72],[6,82],[7,90]]},
+    {name:'Shallow', color:'--s2', shape:'sq', line:true, label:'Shallow', pts:[[1,22],[2,28],[3,34],[4,40],[5,45],[6,49],[7,52]]}
+  ]
+});
+$$('[data-trend]').forEach(b => b.addEventListener('click', () => {
+  const g = charts[b.dataset.trend].querySelector('.trends');
+  const on = b.getAttribute('aria-pressed') !== 'true';
+  g.style.display = on ? '' : 'none'; b.setAttribute('aria-pressed', on);
+  b.classList.toggle('primary', on);
+}));
+
+/* ---------- practice questions ---------- */
+const P = [
+ {ds:1, id:'q1', marks:2, verb:'Calculate', q:'Calculate the mean motor neuron length, round to a whole number.',
+  work:'Sum = 900 + 860 + 780 + 720 + 890 + 810 + 850 + 730 + 800 + 1300 + 540 = 9180\nMean = 9180 ÷ 11 = 834.545…',
+  model:'Mean ≈ <b>835 µm</b>', marking:['[1] working: sum ÷ 11 shown','[1] correct answer, rounded, with units'],
+  tip:'The mean (835) is higher than the median (810) because the outlier 1300 µm pulls it up.'},
+ {ds:1, id:'q2', marks:1, verb:'Calculate', q:'Calculate the median motor neuron length.',
+  work:'In order: 540, 720, 730, 780, 800, 810, 850, 860, 890, 900, 1300\nn = 11 (odd) → position (11 + 1) ÷ 2 = 6th value',
+  model:'Median = <b>810 µm</b>', marking:['[1] correct median (data must be ordered first)'],
+  tip:'Most common mistake: taking the middle of the unordered table (participant 6 = 810 happens to match here, but that is luck).'},
+ {ds:1, id:'q3', marks:1, verb:'Calculate', q:'Calculate the range of the motor neuron lengths.',
+  work:'Highest = 1300 (P10), lowest = 540 (P11)\n1300 − 540 = 760',
+  model:'Range = <b>760 µm</b>', marking:['[1] correct range with working'], tip:''},
+ {ds:1, id:'q4', marks:1, verb:'Sequence', q:'Sequence the range values for these subgroups from least to greatest variability: Participants 1–4, 5–8, 9–11.',
+  work:'P1–4: 900, 860, 780, 720 → 900 − 720 = 180\nP5–8: 890, 810, 850, 730 → 890 − 730 = 160\nP9–11: 800, 1300, 540 → 1300 − 540 = 760',
+  model:'<b>P5–8 (160) → P1–4 (180) → P9–11 (760)</b>', marking:['[1] correct order with range values shown'],
+  tip:'Least variability = smallest range. Always write the numbers, not just the order.'},
+ {ds:1, id:'q5', marks:1, verb:'Sequence', q:'Sequence the range values for these subgroups from least to greatest variability: Participants 2–4, 6–8, 9–11.',
+  work:'P2–4: 860, 780, 720 → 860 − 720 = 140\nP6–8: 810, 850, 730 → 850 − 730 = 120\nP9–11: 800, 1300, 540 → 1300 − 540 = 760',
+  model:'<b>P6–8 (120) → P2–4 (140) → P9–11 (760)</b>', marking:['[1] correct order with range values shown'], tip:''},
+ {ds:1, id:'q6', marks:1, verb:'Contrast', q:'Contrast the motor neuron length of participant 2 with participant 10.',
+  work:'P2 = 860 µm, P10 = 1300 µm\n1300 − 860 = 440',
+  model:'Participant 2 had a motor neuron length of 860 µm <b>whereas</b> participant 10 had 1300 µm, so participant 10\'s was <b>440 µm longer</b>.',
+  marking:['[1] both values given with "whereas", OR the difference of 440 µm'], tip:'Contrast = show the difference. Both values or the difference earns the mark.'},
+
+ {ds:2, id:'q7', marks:1, verb:'Determine', q:'Using Figure 1, determine reaction time for 6 hours of sleep.',
+  work:'Go up from 6 on the x-axis to the trend of the points, then across to the y-axis.\nNearby points: 5.9 h ≈ 272 ms and 6.2 h ≈ 285 ms. Line of best fit at 6 h ≈ 278 ms.',
+  model:'≈ <b>275–280 ms</b>', marking:['[1] a value read from the trend in a reasonable range (about 270–285 ms)'],
+  tip:'Press "Show line of best fit" on Figure 1 to see where 6 hours lands.'},
+ {ds:2, id:'q8', marks:1, verb:'Calculate', q:'Using Figure 1, calculate the total number of participants who slept more than 8 hours.',
+  work:'Count points to the right of the 8-hour line: ≈ 8.2, 8.3, 8.8, 8.9 hours',
+  model:'<b>4 participants</b>', marking:['[1] correct count'], tip:'"More than 8" means strictly greater than 8. Count carefully near gridlines.'},
+ {ds:2, id:'q9', marks:1, verb:'Identify', q:'Identify the type of relationship shown between hours of sleep and reaction time.',
+  work:'Points fall from top-left to bottom-right; r = −0.96',
+  model:'A <b>strong negative (linear) relationship</b>: as hours of sleep increase, reaction time decreases (r = −0.96).', marking:['[1] negative relationship'], tip:''},
+ {ds:2, id:'q10', marks:1, verb:'Identify', q:'Identify if reaction time or hours of sleep shows the greatest dispersion.',
+  work:'SD: reaction time = 33.6, hours of sleep = 1.54\n(Range also: 101.05 vs 4.75)',
+  model:'<b>Reaction time</b> shows the greatest dispersion (SD = 33.6 compared with 1.54).', marking:['[1] reaction time, ideally with the SD values'],
+  tip:'Dispersion question → look for the standard deviation first.'},
+ {ds:2, id:'q11', marks:3, verb:'Draw a conclusion', q:'Draw a conclusion about how hours of sleep may affect reaction time. Show your reasoning.',
+  work:'Trend: negative (≈ 306–320 ms at 4–5 h down to ≈ 219–231 ms above 8 h)\nData: r = −0.96 (strong negative); p = 0.042 < 0.05 (significant)\nReasoning: sleep and alertness / brain processing speed',
+  model:'Figure 1 shows a negative trend: as hours of sleep increase, reaction time decreases, from about 306–320 ms at 4–5 hours to about 220–230 ms at 8–9 hours. This is supported by a strong negative correlation (r = −0.96), and the relationship is statistically significant (p = 0.042 &lt; 0.05), so it is unlikely to be due to chance. This may occur because sleep restores the brain\'s ability to stay alert; with less sleep, attention and processing in the prefrontal cortex are impaired, so sensory information takes longer to be processed and sent to motor neurons, producing slower reactions.',
+  marking:['[1] negative trend described with data from the graph','[1] r = −0.96 (and/or p = 0.042 < 0.05)','[1] psychological reasoning linking sleep to brain processing / attention'],
+  tip:'Use "may" because this is correlational: it doesn\'t prove sleep causes faster reactions.'},
+
+ {ds:3, id:'q12', marks:1, verb:'Determine', q:'Determine the most amount of time spent on un-educative TV watching. Show your working.',
+  work:'Both conditions used the same hours. Hours column: 2, 3, 4, 5, 8, 10\nHighest = 10 (participant 6)',
+  model:'<b>10 hours per week</b> (participant 6)', marking:['[1] 10 hours, identified from the table'], tip:''},
+ {ds:3, id:'q13', marks:2, verb:'Calculate', q:'Calculate the mean time spent watching educative TV, round to a whole number. Show your working.',
+  work:'(2 + 3 + 4 + 5 + 8 + 10) ÷ 6 = 32 ÷ 6 = 5.33…',
+  model:'Mean ≈ <b>5 hours per week</b>', marking:['[1] working shown','[1] correct answer rounded to a whole number'],
+  tip:'If your teacher meant mean educative achievement: (60 + 68 + 74 + 80 + 88 + 94) ÷ 6 = 464 ÷ 6 = 77.3 → 77. Read which column the question names.'},
+ {ds:3, id:'q14', marks:2, verb:'Calculate', q:'Calculate the median time spent watching educative TV. Show your working.',
+  work:'In order: 2, 3, 4, 5, 8, 10 (n = 6, even)\nTwo middle values: 4 and 5 → (4 + 5) ÷ 2',
+  model:'Median = <b>4.5 hours</b>', marking:['[1] ordered data and two middle values averaged','[1] correct answer'],
+  tip:'For educative achievement instead: 60, 68, 74, 80, 88, 94 → (74 + 80) ÷ 2 = 77.'},
+ {ds:3, id:'q15', marks:1, verb:'Sequence', q:'Sequence the range values for these educative TV subgroups from least to greatest variability: Participants 1–3, 3–5, 4–6.',
+  work:'Educative achievement:\nP1–3: 60, 68, 74 → 74 − 60 = 14\nP3–5: 74, 80, 88 → 88 − 74 = 14\nP4–6: 80, 88, 94 → 94 − 80 = 14',
+  model:'All three ranges are 14, so the subgroups have <b>equal variability</b>.', marking:['[1] each range shown and "equal variability" stated'],
+  tip:'Same trick as L15 Q7. Don\'t force an order when the ranges are equal. (Using hours instead: 2, 4, 5 → P1–3, P3–5, P4–6.)'},
+ {ds:3, id:'q16', marks:1, verb:'Identify', q:'Identify the characteristic of the experiment that makes it appropriate to use a paired t-test.',
+  work:'Six students → each did BOTH conditions (educative and non-educative)',
+  model:'The <b>same participants completed both conditions</b> (repeated measures design), giving two sets of scores from the same people.', marking:['[1] same participants in both conditions'], tip:'Different participants in each condition → unpaired.'},
+ {ds:3, id:'q17', marks:1, verb:'Identify', q:'Identify if un-educative TV or educative TV shows the greatest dispersion.',
+  work:'SD: educative = 12.63, non-educative = 8.92\n12.63 − 8.92 = 3.71',
+  model:'<b>Educative TV</b> shows the greatest dispersion (SD = 12.63 compared with 8.92).', marking:['[1] educative, with SD values'], tip:''},
+ {ds:3, id:'q18', marks:1, verb:'Identify', q:'Identify the type of relationship shown between achievement and hours watching educative TV.',
+  work:'Achievement rises 60 → 94 as hours rise 2 → 10; r = +0.75',
+  model:'A <b>positive (linear) relationship</b>: as hours of educative TV increase, achievement increases (r = +0.75).', marking:['[1] positive relationship'], tip:''},
+ {ds:3, id:'q19', marks:1, verb:'Contrast', q:'Contrast the Pearson\'s correlation coefficient between educative and non-educative TV watching.',
+  work:'Educative r = +0.75 (strong positive)\nNon-educative r = −0.991 (very strong negative)',
+  model:'Educative TV has a strong <b>positive</b> correlation (r = +0.75) <b>whereas</b> non-educative TV has a very strong <b>negative</b> correlation (r = −0.991), so the non-educative relationship is stronger.',
+  marking:['[1] both r values contrasted (direction and/or strength)'], tip:'Compare strength using size only: 0.991 > 0.75.'},
+ {ds:3, id:'q20', marks:1, verb:'Predict', q:'Predict the achievement score for educative TV and un-educative TV, if 11 hours were watched per week.',
+  work:'First-to-last trendline:\nEducative: (94 − 60) ÷ (10 − 2) = +4.25 per hour → 94 + 4.25 = 98.25\nNon-educative: (24 − 48) ÷ (10 − 2) = −3 per hour → 24 − 3 = 21',
+  model:'Educative ≈ <b>98</b> (about 96–100); non-educative ≈ <b>21</b> (about 19–23).', marking:['[1] both predictions in a reasonable range'],
+  tip:'Press "Show first-to-last trendlines" on Figure 2 to see the extension to 11 hours.'},
+ {ds:3, id:'q21', marks:1, verb:'Distinguish', q:'Distinguish between the trends in achievement as watching un-educative TV and educative TV increases.',
+  work:'Educative: 60 → 94 (up 34)\nNon-educative: 48 → 24 (down 24)',
+  model:'As hours increase, achievement <b>increases</b> for educative TV (positive trend), <b>whereas</b> it <b>decreases</b> for non-educative TV (negative trend). The gap widens from 12 points at 2 hours to 70 points at 10 hours.',
+  marking:['[1] opposite directions of the two trends stated'], tip:''},
+ {ds:3, id:'q22', marks:3, verb:'Draw a conclusion', q:'Draw a conclusion about the relationship between hours of un-educative TV watched per week and achievement.',
+  work:'Trend: 48 at 2 h → 24 at 10 h (negative)\nData: r = −0.991 (very strong negative); p = 0.02 < 0.05 (significant)\nReasoning: shallow processing / little meaningful content to encode',
+  model:'As hours of non-educative TV increase, achievement decreases, from 48 at 2 hours to 24 at 10 hours, showing a negative relationship. This is a very strong negative correlation (r = −0.991) and it is statistically significant (p = 0.02 &lt; 0.05), so it is unlikely to be due to chance. This may be because non-educative content such as cartoons is processed only at a shallow level and gives little meaningful information to encode semantically into long-term memory, and it may take time away from study, so achievement falls.',
+  marking:['[1] negative trend with data from the table/graph','[1] r = −0.991 and/or p = 0.02 < 0.05','[1] psychological reasoning (e.g. levels of processing)'], tip:'Limitation you could add: only 6 participants, so results may not generalise.'},
+ {ds:3, id:'q23', marks:3, verb:'Draw a conclusion', q:'Draw a conclusion about the relationship between hours of TV watched per week and achievement.',
+  work:'Look at BOTH conditions together.\nEducative: 60 → 94, r = +0.75, p = 0.04\nNon-educative: 48 → 24, r = −0.991, p = 0.02\nEducative higher at every hour; gap 12 → 70',
+  model:'The effect of TV hours on achievement depends on the type of content. Educative TV shows a positive relationship (60 → 94; r = +0.75, p = 0.04 &lt; 0.05), whereas non-educative TV shows a very strong negative relationship (48 → 24; r = −0.991, p = 0.02 &lt; 0.05); both are statistically significant. Educative TV achievement is higher at every number of hours, and the gap widens from 12 to 70 points. This supports the hypothesis and may be because educative content encourages deep, semantic processing (Craik &amp; Lockhart), creating stronger memory traces that improve academic performance, while non-educative content is processed shallowly.',
+  marking:['[1] overall pattern: educative positive vs non-educative negative, with data','[1] r and/or p values for both conditions','[1] psychological reasoning (levels of processing)'],
+  tip:'"Hours of TV" with no type named → talk about both conditions together, like L15 Q16 ("as a whole").'}
+];
+const marks = store.get('ia1-marks', {});
+const answers = store.get('ia1-ans', {});
+const TOTAL = P.reduce((a,q)=>a+q.marks,0);
+function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function penify(s){ return escapeHtml(s).replace(/^\[(\d)\]/, '<span class="pen">[$1]</span>'); }
+P.forEach((q, i) => {
+  const box = document.getElementById('ds'+q.ds);
+  const el = document.createElement('article'); el.className = 'q'; el.id = 'p'+q.id;
+  let btns = ''; for(let v=0; v<=q.marks; v++) btns += `<button type="button" data-q="${q.id}" data-v="${v}" aria-pressed="${marks[q.id]===v}">${v}</button>`;
+  el.innerHTML = `
+    <div class="q-h"><span class="qn">Q${i+1}</span><span class="verb">${q.verb}</span><span class="pen mk">${q.marks} mark${q.marks>1?'s':''}</span></div>
+    <p class="qt">${q.q}</p>
+    <label class="eyebrow" for="ans-${q.id}">Your answer</label>
+    <textarea id="ans-${q.id}" placeholder="Write it out first, then check the model answer"></textarea>
+    <details><summary>Show working and model answer</summary>
+      <div class="ans">
+        <div><div class="lbl">Working</div><div class="work">${escapeHtml(q.work)}</div></div>
+        <div class="model"><div class="lbl">Model answer</div><p>${q.model}</p></div>
+        <div><div class="lbl">Marks awarded for</div><ul>${q.marking.map(m=>'<li>'+penify(m)+'</li>').join('')}</ul></div>
+        ${q.tip ? `<p class="note">${q.tip}</p>` : ''}
+      </div>
+    </details>
+    <div class="self">Mark yourself: ${btns}</div>`;
+  box.appendChild(el);
+  const ta = el.querySelector('textarea'); ta.value = answers[q.id] || '';
+  ta.addEventListener('input', () => { answers[q.id] = ta.value; store.set('ia1-ans', answers); });
+});
+function updateScore(){
+  let s = 0, c = 0; P.forEach(q => { if(typeof marks[q.id] === 'number'){ s += marks[q.id]; c++; } });
+  $('#score').textContent = s + ' / ' + TOTAL;
+  $('#score-n').textContent = c + ' of ' + P.length + ' questions marked';
+  $('#score-bar').style.width = (s/TOTAL*100) + '%';
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.self button'); if(!b) return;
+  const id = b.dataset.q, v = +b.dataset.v;
+  marks[id] = v; store.set('ia1-marks', marks);
+  $$(`.self button[data-q="${id}"]`).forEach(x => x.setAttribute('aria-pressed', +x.dataset.v === v));
+  updateScore();
+});
+$('#reset-marks').addEventListener('click', () => {
+  Object.keys(marks).forEach(k => delete marks[k]); store.set('ia1-marks', marks);
+  $$('.self button').forEach(x => x.setAttribute('aria-pressed','false')); updateScore();
+});
+updateScore();
+
+/* ---------- L18 walkthrough ---------- */
+const L18 = [
+ {marks:3, verb:'Draw a conclusion', q:'Draw a conclusion about how weekly hours spent using deep processing methods may affect mean test scores.',
+  look:'One condition only (deep). Look for the trend, Pearson\'s r, and psychological reasoning.',
+  model:'There is a positive relationship between weekly hours using deep-processing study strategies and mean test scores. As weekly study time using deep processing increases, test performance rises sharply (from ~25% at 1 hour to ~90% at 7 hours) <span class="pen">[1]</span>. This is supported by a strong positive correlation (r = +0.96) <span class="pen">[1]</span>. In accordance with Craik &amp; Tulving, deep processing enhances semantic encoding, which strengthens memory traces and leads to higher recall and therefore higher test scores <span class="pen">[1]</span>.'},
+ {marks:2, verb:'Draw a conclusion', q:'Draw a conclusion about the statistical significance of any recorded differences between the two conditions.',
+  look:'The p-value for the difference. Is it &lt; or &gt; 0.05?',
+  model:'There is a statistically significant difference between deep and shallow processing, indicated by p = 0.01 &lt; 0.05 <span class="pen">[1]</span>, meaning the difference in test performance is unlikely to be due to chance <span class="pen">[1]</span>.'},
+ {marks:2, verb:'Draw a conclusion', q:'Draw a conclusion about the relationship between weekly hours studied and mean test score (%).',
+  look:'The OVERALL pattern. How does the IV (hours) affect the DV (score) generally? Look at both lines together.',
+  model:'Overall, as weekly hours studied increase, mean test scores also increase, showing a clear positive relationship <span class="pen">[1]</span>. The r-value supports this, being strong and positive (r = +0.96) <span class="pen">[1]</span>.'},
+ {marks:1, verb:'Distinguish', q:'Distinguish between the trends for mean test score for deep processing and shallow processing.',
+  look:'Both rise. Which rises faster?',
+  model:'Both increase as weekly hours increase; however, the deep-processing condition increases at a much faster rate (25% → 90%, up 65) than shallow processing (22% → 52%, up 30) <span class="pen">[1]</span>.'},
+ {marks:1, verb:'Identify', q:'Identify which condition shows the greatest dispersion (measure of spread).',
+  look:'Standard deviation. Name the condition, quote the value, give the difference.',
+  model:'Deep processing has the greatest dispersion (SD = 20.5 compared with 11.5 for shallow), a 9-point difference <span class="pen">[1]</span>.'}
+];
+const lbox = $('#l18');
+L18.forEach((q,i) => {
+  const el = document.createElement('article'); el.className = 'q';
+  el.innerHTML = `<div class="q-h"><span class="qn">L18 · ${i+1}</span><span class="verb">${q.verb}</span><span class="pen mk">${q.marks} mark${q.marks>1?'s':''}</span></div>
+    <p class="qt">${q.q}</p>
+    <p class="note"><b>What to look at:</b> ${q.look}</p>
+    <details><summary>Show model answer</summary><div class="ans"><div class="model"><p>${q.model}</p></div></div></details>`;
+  lbox.appendChild(el);
+});
+
+/* ---------- quiz ---------- */
+const Q = [
+ {q:'Mean and median of 12, 15, 5, 10, 9, 6?', o:['Mean 9.5, median 9.5','Mean 9.5, median 9','Mean 10, median 9.5','Mean 57, median 10'], a:0, w:'Sum 57 ÷ 6 = 9.5. Ordered: 5, 6, 9, 10, 12, 15 → (9 + 10) ÷ 2 = 9.5.'},
+ {q:'Median of 9, 3, 8, 2, 6, 2?', o:['6','4','4.5','5'], a:2, w:'Ordered: 2, 2, 3, 6, 8, 9 → (3 + 6) ÷ 2 = 4.5.'},
+ {q:'Which group shows the least variability based on range?', o:['Group 1: range 2','Group 3: range 2.1','Group 6: range 5','Group 7: range 0.2'], a:3, w:'Smallest range = least variability.'},
+ {q:'Which r-value shows the strongest linear relationship?', o:['+0.72','+0.64','−0.89','−0.07'], a:2, w:'Strength is the size, ignoring the sign: 0.89 is the largest.'},
+ {q:'"Dispersion" is best described by…', o:['Mean','Standard deviation','p-value','Pearson r'], a:1, w:'Dispersion = spread. SD (also range and IQR) measures it.'},
+ {q:'"Statistically significant" refers to…', o:['Standard deviation','Mean','p-values','Interquartile range'], a:2, w:'Significance comes from the p-value (p < 0.05).'},
+ {q:'The same students did a word-recall task in silence and with music. Which test compares the means?', o:['Independent samples t-test','Paired t-test','Pearson r','Standard deviation'], a:1, w:'Same participants in both conditions → paired (repeated measures).'},
+ {q:'"Relationship" refers to…', o:['Trends and Pearson\'s r','Standard error','Variance','Mean'], a:0, w:'Relationships are shown by trends on a graph and by r.'},
+ {q:'Which structure helps select intended movements?', o:['Hippocampus','Primary visual cortex','Basal ganglia','Primary auditory cortex'], a:2, w:'The basal ganglia select intended movements and inhibit competing ones.'},
+ {q:'Which result fits the role of the basal ganglia?', o:['Better recall for word meaning','More competing movements after disruption','Improved colour discrimination','Better recall of new events'], a:1, w:'If the basal ganglia are disrupted, competing movements are no longer inhibited.'},
+ {q:'A participant decides whether "lake" rhymes with "cake". Which processing?', o:['Structural','Phonological','Semantic','Sensory storage'], a:1, w:'Rhyme = sound = phonological.'},
+ {q:'A participant decides whether "apple" fits "she packed an __ for lunch". Which processing?', o:['Structural','Phonological','Semantic','Maintenance rehearsal'], a:2, w:'Fitting a sentence requires meaning = semantic (deepest).'},
+ {q:'Shallowest to deepest processing?', o:['Sound → appearance → meaning','Appearance → sound → meaning','Meaning → sound → appearance','Appearance → meaning → sound'], a:1, w:'Structural (appearance) → phonological (sound) → semantic (meaning).'},
+ {q:'p = 0.07. What do you conclude?', o:['Significant, unlikely due to chance','Not significant, could be due to chance','Strong correlation','High variability'], a:1, w:'0.07 is not below 0.05, so it is not statistically significant.'},
+ {q:'Controlled group SD = 2.98, Test group SD = 0.90. Which has greater dispersion?', o:['Test group','Controlled group','They are equal','Can\'t tell without the mean'], a:1, w:'Larger SD = greater dispersion.'},
+ {q:'Different participants in each condition. Which t-test?', o:['Paired','Unpaired (independent)','Neither','Pearson'], a:1, w:'Independent groups design → unpaired t-test.'},
+ {q:'Standard error is calculated as…', o:['SD × n','Mean ÷ n','SD ÷ √n','Q3 − Q1'], a:2, w:'SE = SD ÷ √n.'},
+ {q:'What happens to standard error when the sample size increases?', o:['It increases','It decreases','It stays the same','It becomes negative'], a:1, w:'Dividing by a bigger √n makes SE smaller, so the estimate is more precise.'},
+ {q:'A 95% confidence interval tells you…', o:['95% of scores are inside it','The range likely to contain the true population mean','The p-value','The strength of a correlation'], a:1, w:'We are 95% confident the population mean lies in this range.'},
+ {q:'An extreme outlier affects which measure the most?', o:['Median','Mean','IQR','Mode'], a:1, w:'The mean uses every value, so one extreme value pulls it.'},
+ {q:'The interquartile range measures…', o:['The spread of the middle 50%','The highest minus lowest','The average distance from the mean','Statistical significance'], a:0, w:'IQR = Q3 − Q1, the middle 50% of the data.'},
+ {q:'r = −0.96 means…', o:['Weak negative','Strong positive','Strong negative','No relationship'], a:2, w:'Size 0.96 = strong; negative sign = as one rises, the other falls.'},
+ {q:'An "Identify" question needs…', o:['A full explanation with reasons','To recognise and name it (quote the value)','A calculation with working','Psychological reasoning'], a:1, w:'Identify = recognise and name. No reasoning required.'},
+ {q:'Estimating a value beyond the range of your data is…', o:['Interpolating','Extrapolating','Sequencing','Contrasting'], a:1, w:'Extrapolate = extend the trend outside the data. Interpolate = within it.'},
+ {q:'Range of 4, 9, 2, 15?', o:['11','13','15','7.5'], a:1, w:'15 − 2 = 13.'},
+ {q:'Which structure detects threatening stimuli and triggers the stress response?', o:['Cerebellum','Amygdala','Basal ganglia','Primary motor cortex'], a:1, w:'The amygdala detects emotional and threatening stimuli.'},
+ {q:'Which structure consolidates new explicit memories?', o:['Hippocampus','Cerebellum','Amygdala','Basal ganglia'], a:0, w:'The hippocampus encodes and consolidates new declarative memories.'},
+ {q:'A 3-mark "draw a conclusion" answer needs…', o:['Just the r-value','Trend + data (r/p) + psychological reasoning','Only the mean','A prediction'], a:1, w:'One mark each for trend, statistic and psychology.'}
+];
+let qs = {right:0, done:0};
+function renderQuiz(){
+  qs = {right:0, done:0};
+  const box = $('#quizbox'); box.innerHTML = '';
+  Q.forEach((it, i) => {
+    const el = document.createElement('div'); el.className = 'mcq';
+    el.innerHTML = `<p><b>${i+1}.</b> ${it.q}</p><div class="opts">${it.o.map((o,j)=>`<button type="button" data-j="${j}">${o}</button>`).join('')}</div><p class="why" hidden></p>`;
+    el.querySelector('.opts').addEventListener('click', e => {
+      const b = e.target.closest('button'); if(!b || b.disabled) return;
+      const j = +b.dataset.j; const btns = $$('button', el);
+      btns.forEach(x => x.disabled = true);
+      btns[it.a].classList.add('right');
+      const ok = j === it.a; if(!ok) b.classList.add('wrong');
+      qs.done++; if(ok) qs.right++;
+      const w = el.querySelector('.why'); w.hidden = false;
+      w.innerHTML = (ok ? '<b class="ok">Correct.</b> ' : '<b class="no">Not quite.</b> ') + it.w;
+      $('#qscore').textContent = qs.right + ' / ' + qs.done + ' (of ' + Q.length + ')';
+    });
+    box.appendChild(el);
+  });
+  $('#qscore').textContent = '0 / 0 (of ' + Q.length + ')';
+}
+renderQuiz();
+$('#qreset').addEventListener('click', renderQuiz);
+
+/* ---------- calculator ---------- */
+function medianOf(s){ const n = s.length; if(!n) return NaN; const m = Math.floor(n/2); return n % 2 ? s[m] : (s[m-1] + s[m]) / 2; }
+function calc(){
+  const vals = $('#calc-in').value.split(/[\s,;]+/).filter(t => t.trim() !== '').map(Number).filter(v => isFinite(v));
+  const out = $('#calc-out');
+  if(vals.length < 2){ out.innerHTML = '<div><b>–</b><small>Enter at least two numbers.</small></div>'; return; }
+  const n = vals.length, s = [...vals].sort((a,b)=>a-b), sum = vals.reduce((a,b)=>a+b,0), mean = sum/n;
+  const med = medianOf(s);
+  const lower = s.slice(0, Math.floor(n/2)), upper = s.slice(Math.ceil(n/2));
+  const q1 = medianOf(lower), q3 = medianOf(upper);
+  const ss = vals.reduce((a,v)=>a+(v-mean)**2,0), sd = Math.sqrt(ss/(n-1)), se = sd/Math.sqrt(n);
+  const counts = {}; vals.forEach(v => counts[v] = (counts[v]||0)+1);
+  const maxc = Math.max(...Object.values(counts));
+  const modes = maxc > 1 ? Object.keys(counts).filter(k => counts[k] === maxc).join(', ') : 'none (all appear once)';
+  const mid = n % 2 ? `position ${(n+1)/2}` : `average of positions ${n/2} and ${n/2+1}: (${s[n/2-1]} + ${s[n/2]}) ÷ 2`;
+  out.innerHTML = `
+    <div><span class="eyebrow">Ordered (n = ${n})</span><small>${s.join(', ')}</small></div>
+    <div><span class="eyebrow">Mean</span><b>${fmt(mean)}</b><small>${fmt(sum,4)} ÷ ${n}</small></div>
+    <div><span class="eyebrow">Median</span><b>${fmt(med)}</b><small>${mid}</small></div>
+    <div><span class="eyebrow">Mode</span><b>${maxc > 1 ? modes : '–'}</b><small>${maxc > 1 ? 'appears ' + maxc + ' times' : modes}</small></div>
+    <div><span class="eyebrow">Range</span><b>${fmt(s[n-1]-s[0])}</b><small>${s[n-1]} − ${s[0]}</small></div>
+    <div><span class="eyebrow">IQR</span><b>${fmt(q3-q1)}</b><small>Q3 ${fmt(q3)} − Q1 ${fmt(q1)}</small></div>
+    <div><span class="eyebrow">Standard deviation (sample)</span><b>${fmt(sd)}</b><small>√(${fmt(ss)} ÷ ${n-1})</small></div>
+    <div><span class="eyebrow">Standard error</span><b>${fmt(se)}</b><small>${fmt(sd)} ÷ √${n}</small></div>
+    <div><span class="eyebrow">95% CI</span><b>${fmt(mean-1.96*se)} to ${fmt(mean+1.96*se)}</b><small>${fmt(mean)} ± 1.96 × ${fmt(se)}</small></div>`;
+}
+$('#calc-in').addEventListener('input', calc); calc();
+
+function readR(){
+  const v = parseFloat($('#r-in').value.replace('−','-')); const o = $('#r-out');
+  if(isNaN(v) || v < -1 || v > 1){ o.textContent = 'Enter a value between −1 and +1.'; return; }
+  const a = Math.abs(v);
+  const str = a >= 0.7 ? 'strong' : a >= 0.4 ? 'moderate' : a >= 0.1 ? 'weak' : 'no (negligible)';
+  const dir = a < 0.1 ? '' : v > 0 ? ' positive' : ' negative';
+  const meaning = a < 0.1 ? 'there is no clear linear relationship between the variables.' : v > 0 ? 'as one variable increases, the other also increases.' : 'as one variable increases, the other decreases.';
+  o.innerHTML = `<b>r = ${v > 0 ? '+' : ''}${v}</b> shows a <b>${str}${dir} correlation</b>: ${meaning}`;
+}
+function readP(){
+  const v = parseFloat($('#p-in').value); const o = $('#p-out');
+  if(isNaN(v) || v < 0 || v > 1){ o.textContent = 'Enter a p-value between 0 and 1.'; return; }
+  o.innerHTML = v < 0.05
+    ? `<b>p = ${v} &lt; 0.05</b>, so the result is <b>statistically significant</b>: it is unlikely to be due to chance.`
+    : `<b>p = ${v} ≥ 0.05</b>, so the result is <b>not statistically significant</b>: it could be due to chance.`;
+}
+$('#r-in').addEventListener('input', readR); $('#p-in').addEventListener('input', readP); readR(); readP();
+
+/* ---------- checklist ---------- */
+const ck = store.get('ia1-checks', {});
+$$('#checks input').forEach(c => { c.checked = !!ck[c.id]; c.addEventListener('change', () => { ck[c.id] = c.checked; store.set('ia1-checks', ck); }); });
+})();
+</script>
+</body>
+</html>
