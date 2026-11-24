@@ -113,6 +113,23 @@ caption{caption-side:top; text-align:left; padding:10px 12px 4px; font-weight:60
 /* verb table */
 .verb{display:inline-block; font-family:var(--f-mono); font-size:.75rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft); padding:2px 8px; border-radius:6px}
 
+/* verb dropdowns */
+.vd-tools{display:flex; justify-content:flex-end}
+.vd-list{display:flex; flex-direction:column; gap:10px}
+details.vd{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:0}
+details.vd[open]{border-color:var(--accent)}
+details.vd > summary{display:flex; align-items:flex-start; gap:12px; padding:14px 18px; color:var(--ink); font-weight:400; width:100%}
+details.vd > summary::before{color:var(--accent); font-weight:600; padding-top:2px}
+.vd-sum{display:flex; flex-direction:column; gap:4px; min-width:0}
+.vd-chips{display:flex; flex-wrap:wrap; gap:6px}
+.vd-want{color:var(--muted); font-size:.95rem}
+.vd-body{display:flex; flex-direction:column; gap:12px; padding:0 18px 18px}
+.exq{background:var(--sunk); border-radius:10px; padding:12px 14px; display:flex; flex-direction:column; gap:8px}
+.exq .q-h{gap:8px}
+.vd-body details{border-top:none; padding-top:0}
+.vd-body details > summary{font-size:.95rem}
+.vd-class{font-size:.92rem; color:var(--muted)}
+
 /* practice questions */
 .ds{display:flex; flex-direction:column; gap:16px}
 .ds-head{display:flex; flex-direction:column; gap:8px}
@@ -530,30 +547,12 @@ details[open] summary::before{content:"\2212"}
   <div class="intro">
     <span class="eyebrow">Cognitive verbs</span>
     <h2>Answer exactly what the verb asks</h2>
-    <p>The verb tells you how much to write. "Identify" needs one line; "draw a conclusion" needs evidence plus reasoning. Examples come from your class material.</p>
+    <p>The verb tells you how much to write. "Identify" needs one line; "draw a conclusion" needs evidence plus reasoning. Tap a verb to open an example question. Try answering it in your head, then reveal the model answer.</p>
   </div>
-  <div class="tbl">
-    <table>
-      <thead><tr><th>Verb</th><th>What they want</th><th>Model answer from class</th></tr></thead>
-      <tbody>
-        <tr><td><span class="verb">Calculate</span></td><td>Work it out mathematically. <b>Show all working</b>, give units, round as asked.</td><td>Median: 2, 10, 11, 11, 11, 12, <b>12, 12</b>, 12, 13, 13, 13 → (12 + 12) ÷ 2 <span class="pen">[1]</span> = 12 <span class="pen">[1]</span></td></tr>
-        <tr><td><span class="verb">Identify</span></td><td>Recognise and name. <b>No explanation needed</b>, but quote the value.</td><td>"Category 1 has the lowest perceived stress score at 15/50." <span class="pen">[1]</span></td></tr>
-        <tr><td><span class="verb">Determine</span></td><td>Work out an answer using the data, a graph or reasoning (often reading a value off a graph).</td><td>Condition 3 mean ≈ 74–75% (any value in the acceptable range) <span class="pen">[1]</span></td></tr>
-        <tr><td><span class="verb">Use</span></td><td>Apply the given formula, table or graph to get a value.</td><td>"Using Figure 1, determine reaction time for 6 hours of sleep" → read across from the trend.</td></tr>
-        <tr><td><span class="verb">Contrast</span></td><td>State the <b>differences</b>: give both values, or the size of the difference.</td><td>"Previous research r = 0.88, whereas current research increased to 0.94." OR "a difference of 0.06" <span class="pen">[1]</span></td></tr>
-        <tr><td><span class="verb">Compare</span></td><td>Similarities <b>and</b> differences.</td><td>"Both conditions increase, but deep processing scores are higher at every point."</td></tr>
-        <tr><td><span class="verb">Sequence</span></td><td>Arrange in order, showing the values.</td><td>Groups 1–4, 5–7, 8–10: 8 − 6 = 2 each → "equal variability" <span class="pen">[1]</span></td></tr>
-        <tr><td><span class="verb">Distinguish</span></td><td>Say how two trends differ: <b>direction</b> (positive vs negative) and/or <b>rate</b> (which changes faster).</td><td>"While both increase, complex-sentence performance increased at a faster rate than single-word reading." <span class="pen">[1]</span></td></tr>
-        <tr><td><span class="verb">Categorise</span> <span class="verb">Classify</span></td><td>Put items into groups based on shared features.</td><td>"r = −0.89 is a strong negative correlation."</td></tr>
-        <tr><td><span class="verb">Organise</span></td><td>Arrange information into a clear structure (e.g. a table or ordered list).</td><td>Order conditions from lowest to highest mean.</td></tr>
-        <tr><td><span class="verb">Predict</span> <span class="verb">Extrapolate</span></td><td>Estimate a value <b>beyond</b> the data by extending the trend. Show reasoning.</td><td>Draw a line from the first to the last point and extend it: complex ≈ 98% (96–100) <span class="pen">[1]</span>, single word ≈ 100% (95–105) <span class="pen">[1]</span></td></tr>
-        <tr><td><span class="verb">Interpolate</span></td><td>Estimate a value <b>within</b> the data range.</td><td>Read the y-value at a given x between two plotted points.</td></tr>
-        <tr><td><span class="verb">Infer</span> <span class="verb">Deduce</span></td><td>Reach a conclusion from the evidence that isn't directly stated.</td><td>"Because r is strongly negative, more sleep is associated with faster reactions."</td></tr>
-        <tr><td><span class="verb">Justify</span></td><td>Give reasons and evidence for a claim.</td><td>"The difference is significant because p = 0.02 &lt; 0.05."</td></tr>
-        <tr><td><span class="verb">Draw a conclusion</span></td><td>Make a judgement based on evidence: <b>trend + data + psychological reasoning</b>.</td><td>See the formula below.</td></tr>
-      </tbody>
-    </table>
+  <div class="vd-tools">
+    <button class="btn" type="button" id="vd-all" aria-pressed="false">Open all</button>
   </div>
+  <div id="verblist" class="vd-list"></div>
 
   <div class="stack">
     <div class="intro">
@@ -1195,6 +1194,108 @@ $('#reset-marks').addEventListener('click', () => {
   $$('.self button').forEach(x => x.setAttribute('aria-pressed','false')); updateScore();
 });
 updateScore();
+
+/* ---------- verb dropdowns ---------- */
+const PEN = n => `<span class="pen">[${n}]</span>`;
+const V = [
+ {v:['Calculate'], want:'Work it out mathematically. Show all working, give units, round as asked.',
+  how:'Write the sum or formula with the real numbers first, then the answer. The working is usually its own mark.',
+  data:'Five participants recalled 14, 18, 11, 16 and 21 words.', q:'Calculate the mean number of words recalled. Show your working.', marks:2,
+  model:`(14 + 18 + 11 + 16 + 21) ÷ 5 = 80 ÷ 5 ${PEN(1)} = <b>16 words</b> ${PEN(1)}`,
+  cls:'L15 Q8: 2, 10, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13 → (12 + 12) ÷ 2 = 12.'},
+ {v:['Identify'], want:'Recognise and name it. No explanation needed, but quote the value.',
+  how:'One sentence: name the answer and quote the number that proves it.',
+  data:'Standard deviation of recall scores: Music condition = 4.2, Silence condition = 1.8.', q:'Identify which condition shows the greatest dispersion.', marks:1,
+  model:`The <b>music condition</b> shows the greatest dispersion (SD = 4.2 compared with 1.8). ${PEN(1)}`,
+  cls:'L15 Q3: "Category 1 has the lowest perceived stress score at 15/50."'},
+ {v:['Determine'], want:'Work out an answer from the data, a graph or reasoning.',
+  how:'Find the values you need, show the small step, then state the answer with units.',
+  data:'L18 graph at 7 weekly hours: deep processing = 90%, shallow processing = 52%.', q:'Determine how much higher the mean test score was for deep processing than shallow processing at 7 hours.', marks:1,
+  model:`90 − 52 = <b>38 percentage points</b> higher for deep processing. ${PEN(1)}`,
+  cls:'L15 Q12: Condition 3 mean ≈ 74–75% (any value in the acceptable range).'},
+ {v:['Use'], want:'Apply the given formula, table or graph to get a value.',
+  how:'Write the formula, substitute the numbers, then calculate.',
+  data:'A sample of 25 students has a standard deviation of 10.', q:'Use the formula SE = SD ÷ √n to find the standard error.', marks:1,
+  model:`SE = 10 ÷ √25 = 10 ÷ 5 = <b>2</b> ${PEN(1)}`,
+  cls:'Practice Q7: "Using Figure 1, determine reaction time for 6 hours of sleep" means read the graph.'},
+ {v:['Contrast'], want:'State the differences: give both values with "whereas", or the size of the difference.',
+  how:'"A was ___, whereas B was ___" or "a difference of ___". Either earns the mark.',
+  data:'Mean reaction time: participants who slept 5 hours = 300 ms; participants who slept 8 hours = 230 ms.', q:'Contrast the mean reaction time of participants who slept 5 hours with those who slept 8 hours.', marks:1,
+  model:`Participants who slept 5 hours had a mean reaction time of 300 ms, <b>whereas</b> those who slept 8 hours had 230 ms, which is <b>70 ms faster</b>. ${PEN(1)}`,
+  cls:'L15 Q4: "Previous research r = 0.88, whereas current research increased to 0.94." OR "a difference of 0.06".'},
+ {v:['Compare'], want:'Give similarities AND differences.',
+  how:'One sentence for what is the same, one for what is different. Use "both" and "whereas".',
+  data:'Educative TV: r = +0.75, p = 0.04. Non-educative TV: r = −0.991, p = 0.02.', q:'Compare the inferential statistics for the educative and non-educative TV conditions.', marks:2,
+  model:`<b>Similarity:</b> both conditions are statistically significant (p = 0.04 and p = 0.02, both &lt; 0.05). ${PEN(1)} <b>Difference:</b> educative TV has a strong positive correlation (r = +0.75), whereas non-educative TV has a very strong negative correlation (r = −0.991). ${PEN(1)}`,
+  cls:''},
+ {v:['Sequence'], want:'Put things in order and show the values.',
+  how:'Calculate each value (e.g. each range), then list them in the order asked. If they are all equal, say "equal variability".',
+  data:'Group A: 12, 15, 13. Group B: 10, 22, 16. Group C: 18, 19, 17.', q:'Sequence the groups from least to greatest variability using the range.', marks:1,
+  model:`A: 15 − 12 = 3. B: 22 − 10 = 12. C: 19 − 17 = 2.<br><b>Group C (2) → Group A (3) → Group B (12)</b> ${PEN(1)}`,
+  cls:'L15 Q7: groups 1–4, 5–7, 8–10 were all 8 − 6 = 2, so "equal variability".'},
+ {v:['Distinguish'], want:'Say how two trends differ: direction (up vs down) and/or rate (which changes faster).',
+  how:'Describe each trend with its start and end values and link them with "whereas".',
+  data:'Over a 4-day sleep study, the sleep-deprived group\'s reaction time went from 250 ms to 330 ms. The normal-sleep group went from 250 ms to 255 ms.', q:'Distinguish between the trends in reaction time for the two groups.', marks:1,
+  model:`Reaction time <b>increased sharply</b> for the sleep-deprived group (250 → 330 ms, up 80 ms), <b>whereas</b> it stayed <b>almost constant</b> for the normal-sleep group (250 → 255 ms). ${PEN(1)}`,
+  cls:'L15 Q14: "While both increase, complex-sentence performance increased at a faster rate than single-word reading."'},
+ {v:['Categorise','Classify'], want:'Put items into groups based on shared features.',
+  how:'Name the category for each item. For r values, give strength and direction.',
+  data:'Three studies found r = +0.82, r = −0.45 and r = +0.15.', q:'Classify each correlation by strength and direction.', marks:1,
+  model:`+0.82 = <b>strong positive</b>; −0.45 = <b>moderate negative</b>; +0.15 = <b>weak positive</b>. ${PEN(1)}`,
+  cls:''},
+ {v:['Organise'], want:'Arrange information into a clear order or structure.',
+  how:'Show the values as you order them so the marker can see your reasoning.',
+  data:'Mean words recalled: structural processing = 6, semantic processing = 14, phonological processing = 9.', q:'Organise the levels of processing from lowest to highest mean recall.', marks:1,
+  model:`<b>Structural (6) → Phonological (9) → Semantic (14)</b> ${PEN(1)}<br>This matches levels of processing: shallow → deep.`,
+  cls:''},
+ {v:['Predict','Extrapolate'], want:'Estimate a value beyond the data by extending the trend. Show reasoning.',
+  how:'Draw a straight line from the first to the last point and extend it. Work out the change per unit and add it on.',
+  data:'Weekly practice hours vs accuracy: 2 h = 70%, 4 h = 78%, 6 h = 86%, 8 h = 94%.', q:'Predict the accuracy for 9 hours of practice per week. Show your reasoning.', marks:2,
+  model:`Trend from first to last point: (94 − 70) ÷ (8 − 2) = 4% per hour ${PEN(1)}<br>94 + 4 = <b>≈ 98%</b> (accept 96–100) ${PEN(1)}`,
+  cls:'L15 Q15: complex ≈ 98% (96–100), single word ≈ 100% (95–105).'},
+ {v:['Interpolate'], want:'Estimate a value within the range of the data.',
+  how:'Find the two points either side of the value and read between them.',
+  data:'Weekly practice hours vs accuracy: 2 h = 70%, 4 h = 78%, 6 h = 86%, 8 h = 94%.', q:'Interpolate the accuracy for 5 hours of practice per week.', marks:1,
+  model:`5 h is halfway between 4 h (78%) and 6 h (86%), so <b>≈ 82%</b>. ${PEN(1)}`,
+  cls:''},
+ {v:['Infer','Deduce'], want:'Reach a conclusion from the evidence that isn\'t directly stated.',
+  how:'State what you conclude, then point to the data that leads you there.',
+  data:'A patient with hippocampal damage recalled 5% of a story told the day before (healthy control: 60%). Both improved equally on a mirror-drawing skill over 3 days.', q:'Infer what type of memory the hippocampus is involved in.', marks:1,
+  model:`The hippocampus is involved in forming <b>new explicit (declarative) memories</b>: the patient's story recall was far lower (5% vs 60%), but procedural skill learning was not affected. ${PEN(1)}`,
+  cls:''},
+ {v:['Justify'], want:'Give reasons and evidence that support a claim.',
+  how:'State your claim, then "because" plus the number that backs it.',
+  data:'A t-test comparing recall in the music and silence conditions gave p = 0.03.', q:'Justify whether the difference between the two conditions is statistically significant.', marks:2,
+  model:`The difference <b>is statistically significant</b> ${PEN(1)} because p = 0.03, which is less than 0.05, so the difference is unlikely to be due to chance. ${PEN(1)}`,
+  cls:''},
+ {v:['Draw a conclusion'], want:'Make a judgement based on evidence: trend + data + psychological reasoning.',
+  how:'Mark 1: the trend with numbers. Mark 2: r and/or p. Mark 3: why, using a brain structure or memory theory.',
+  data:'15 participants. Hours of sleep the night before vs words recalled: about 8 words at 4 hours rising to about 17 words at 9 hours. r = +0.84, p = 0.01.', q:'Draw a conclusion about how hours of sleep may affect word recall.', marks:3,
+  model:`As hours of sleep increase, words recalled increase, from about 8 words at 4 hours to about 17 words at 9 hours, showing a positive trend. ${PEN(1)} This is a strong positive correlation (r = +0.84) and is statistically significant (p = 0.01 &lt; 0.05), so it is unlikely to be due to chance. ${PEN(1)} This may be because sleep helps the hippocampus consolidate newly encoded information into long-term memory, and well-rested people pay better attention while encoding, so more words are recalled. ${PEN(1)}`,
+  cls:'L15 Q5: amygdala activation and perceived stress (trend + r = 0.94 + amygdala triggers the stress response).'}
+];
+const vbox = $('#verblist');
+V.forEach(it => {
+  const d = document.createElement('details'); d.className = 'vd';
+  d.innerHTML = `<summary><div class="vd-sum"><div class="vd-chips">${it.v.map(x=>`<span class="verb">${x}</span>`).join('')}</div><span class="vd-want">${it.want}</span></div></summary>
+    <div class="vd-body">
+      <p><b>How to answer:</b> ${it.how}</p>
+      <div class="exq">
+        <div class="q-h"><span class="lbl eyebrow">Example question</span><span class="pen mk">${it.marks} mark${it.marks>1?'s':''}</span></div>
+        <p><b>Data:</b> ${it.data}</p>
+        <p class="qt">${it.q}</p>
+      </div>
+      <details><summary>Show model answer</summary><div class="ans"><div class="model"><p>${it.model}</p></div></div></details>
+      ${it.cls ? `<p class="vd-class"><b>From your class material:</b> ${it.cls}</p>` : ''}
+    </div>`;
+  vbox.appendChild(d);
+});
+$('#vd-all').addEventListener('click', e => {
+  const open = e.currentTarget.getAttribute('aria-pressed') !== 'true';
+  $$('#verblist details.vd').forEach(d => d.open = open);
+  e.currentTarget.setAttribute('aria-pressed', open);
+  e.currentTarget.textContent = open ? 'Close all' : 'Open all';
+});
 
 /* ---------- L18 walkthrough ---------- */
 const L18 = [
