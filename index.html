@@ -15,7 +15,7 @@
   --hl:#ffe58a; --good:#17784a; --good-soft:#e3f4ea; --bad:#b4271f; --bad-soft:#fbe6e4;
   --s1:#2a78d6; --s2:#eb6834;
   /* countdown band: deliberately dark red-on-black in both themes */
-  --alarm-bg:#170707; --alarm-line:#3d1412; --alarm-fg:#ff3b30; --alarm-glow:rgba(255,59,48,.45); --alarm-muted:#c98b86; --alarm-text:#ffd9d5;
+  --alarm-bg:#170707; --alarm-line:#3d1412; --alarm-fg:#ff3b30; --alarm-glow:rgba(255,59,48,.45); --alarm-muted:#c98b86; --alarm-text:#ffd9d5; --alarm-scrim:rgba(8,0,0,.84);
   --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
   --f-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -112,6 +112,21 @@ caption{caption-side:top; text-align:left; padding:10px 12px 4px; font-weight:60
 
 /* verb table */
 .verb{display:inline-block; font-family:var(--f-mono); font-size:.75rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft); padding:2px 8px; border-radius:6px}
+
+/* time alerts + self-destruct */
+.alarm{position:fixed; inset:0; z-index:50; background:var(--alarm-scrim); display:grid; place-items:center; padding:max(16px, env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right,0px)) max(16px, env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px))}
+.alarm-card{width:100%; max-width:560px; max-height:100%; overflow:auto; background:var(--alarm-bg); color:var(--alarm-text); border:2px solid var(--alarm-fg); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:14px; box-shadow:0 0 60px var(--alarm-glow)}
+.alarm-card .eyebrow{color:var(--alarm-muted)}
+.alarm-big{font-family:var(--f-display); font-weight:800; font-size:clamp(2.2rem, 9vw, 3.4rem); line-height:1; color:var(--alarm-fg); text-shadow:0 0 24px var(--alarm-glow); animation:throb 1s ease-in-out 3}
+.alarm-body{font-size:1.05rem; line-height:1.55}
+.alarm-btns{display:flex; flex-wrap:wrap; gap:8px}
+.alarm-btns .btn{text-decoration:none; background:transparent; color:var(--alarm-text); border-color:var(--alarm-line)}
+.alarm-btns .btn.primary{background:var(--alarm-fg); border-color:var(--alarm-fg); color:var(--alarm-bg)}
+.boom{min-height:100vh; min-height:100dvh; background:var(--alarm-bg); color:var(--alarm-text); display:grid; place-items:center; padding-block:40px}
+.boom-in{max-width:620px; display:flex; flex-direction:column; gap:16px}
+.boom h1{color:var(--alarm-fg); font-size:clamp(2.2rem, 8vw, 4rem); text-shadow:0 0 30px var(--alarm-glow)}
+.boom .eyebrow{color:var(--alarm-muted)}
+.boom-gl{font-family:var(--f-display); font-weight:800; font-size:1.6rem; color:var(--alarm-fg)}
 
 /* 30 minute mark */
 .tabs a.hot{color:var(--pen)}
@@ -261,6 +276,15 @@ details[open] summary::before{content:"\2212"}
     <b id="cd">--:--:--</b>
     <p id="cd-msg">Lock in.</p>
     <div class="drain" aria-hidden="true"><i id="cd-bar"></i></div>
+  </div>
+</div>
+
+<div class="alarm" id="alarm" role="alertdialog" aria-modal="true" aria-labelledby="alarm-big" hidden>
+  <div class="alarm-card">
+    <div class="clock-l"><span class="dot" aria-hidden="true"></span><span class="eyebrow">Exam at 11:50 am</span></div>
+    <div class="alarm-big" id="alarm-big"></div>
+    <div class="alarm-body" id="alarm-body"></div>
+    <div class="alarm-btns"><a class="btn primary" id="alarm-go" href="#start">Go</a><button class="btn" type="button" id="alarm-close">Got it</button></div>
   </div>
 </div>
 
@@ -1195,16 +1219,15 @@ show(location.hash.slice(1), false);
 
 /* ---------- countdown + plan ---------- */
 function toMin(s){ const [h,m] = s.split(':').map(Number); return h*60+m; }
+const EXAM = new Date(2026, 10, 24, 11, 50, 0, 0);      // 24 Nov 2026, 11:50 am (viewer's local time)
+const EXAM_START = new Date(2026, 10, 24, 9, 0, 0, 0);
+let destroyed = false;
 function tick(){
-  const now = new Date(); const t = new Date(now); t.setHours(11,50,0,0);
-  const start = new Date(now); start.setHours(9,0,0,0);
+  if(destroyed) return;
+  const now = new Date(); const t = EXAM, start = EXAM_START;
   const ms = t - now;
   const el = $('#cd'), msg = $('#cd-msg'), bar = $('#cd-bar'), mini = $('#cd-mini'), clock = $('.clock');
-  if(ms <= 0){
-    el.textContent = '00:00:00'; mini.textContent = 'Exam time';
-    msg.textContent = 'Exam time. Breathe. You know this.';
-    bar.style.width = '0%'; clock.classList.remove('urgent');
-  } else {
+  if(ms <= 0){ selfDestruct(); return; } else {
     const h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), s = Math.floor(ms%60000/1000);
     const txt = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
     el.textContent = txt; mini.textContent = txt;
@@ -1212,10 +1235,14 @@ function tick(){
     msg.textContent = mins > 120 ? 'The clock is running. Lock in now.'
       : mins > 60 ? 'Under 2 hours. Phone away. Every minute counts.'
       : mins > 30 ? 'Under an hour. No distractions. Questions only.'
-      : mins > 10 ? 'Final stretch. Cheat sheet, then pack your bag.'
-      : 'Stop studying. Walk in calm. You have done the work.';
+      : mins > 20 ? '30 minutes left. Conclusions and rapid fire only.'
+      : mins > 10 ? '20 minutes left. Cheat sheet once, then pack your bag.'
+      : mins > 5 ? '10 minutes left. Stop studying. Walk in calm.'
+      : mins > 1 ? 'Final 5 minutes. Phone off. Breathe.'
+      : 'This site self-destructs at 11:50.';
     bar.style.width = Math.max(0, Math.min(100, ms / (t - start) * 100)) + '%';
     clock.classList.toggle('urgent', mins <= 30);
+    document.title = mins <= 60 ? txt + ' left · IA1 Data Test Prep' : 'IA1 Data Test Prep';
   }
   const nm = now.getHours()*60 + now.getMinutes();
   $$('#plan li').forEach(li => {
@@ -1224,7 +1251,73 @@ function tick(){
     li.classList.toggle('done', nm >= to && nm < 12*60+30);
   });
 }
-tick(); setInterval(tick, 1000);
+/* ---------- time alerts ---------- */
+const MS = [
+ {m:30, big:'30 MINUTES LEFT', body:'Stop learning new things. Do Blocks 5 and 6 of the 30 minute mark: the conclusion formula, the psychology for mark 3, and rapid fire.', btn:'Go to Block 5', href:'#30-minute-mark'},
+ {m:20, big:'20 MINUTES LEFT', body:'Read the cheat sheet once, start to finish. Then pack your bag: calculator, pens, pencil, ruler, water.', btn:'Open cheat sheet', href:'#cheatsheet'},
+ {m:10, big:'10 MINUTES LEFT', body:'Stop studying. Read these once, then walk in calm:<ol class="tight" style="margin-top:8px"><li>Show working with the real numbers.</li><li>Order the data before the median.</li><li>Bigger SD = more dispersion. Quote both values.</li><li>r: sign = direction, size = strength.</li><li>p &lt; 0.05 = significant, unlikely due to chance.</li><li>Same people = paired. Different people = unpaired.</li><li>Conclusion = trend + r/p + psychology. Use "may".</li><li>Read the verb and the marks before you write.</li></ol>'},
+ {m:5, big:'5 MINUTES', body:'Phone off. Breathe in for 4, out for 6. Out of 20, scaled to 10: every mark counts, so attempt every question.'},
+ {m:1, big:'SELF-DESTRUCT IN 60 SECONDS', body:'At 11:50 this site deletes itself. Everything you need is in your head now. Good luck.'}
+];
+let alarmLog = store.get('ia1-alarms', {seen:[]});
+function showAlarm(x){
+  $('#alarm-big').textContent = x.big;
+  $('#alarm-body').innerHTML = x.body;
+  const go = $('#alarm-go');
+  if(x.href){ go.hidden = false; go.textContent = x.btn; go.setAttribute('href', x.href); } else { go.hidden = true; }
+  $('#alarm').hidden = false; $('#alarm-close').focus();
+  beep();
+}
+function hideAlarm(){ $('#alarm').hidden = true; }
+function checkAlarm(){
+  if(destroyed) return;
+  const mins = (EXAM - new Date()) / 60000;
+  if(mins <= 0) return;
+  const passed = MS.filter(x => mins <= x.m);
+  if(!passed.length) return;
+  const cur = passed[passed.length - 1];
+  if(alarmLog.seen.includes(cur.m)) return;
+  passed.forEach(x => { if(!alarmLog.seen.includes(x.m)) alarmLog.seen.push(x.m); });
+  store.set('ia1-alarms', alarmLog);
+  showAlarm(cur);
+}
+function beep(){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+    const ac = new AC(); if(ac.state === 'suspended') ac.resume();
+    [0, .28, .56].forEach(t0 => {
+      const o = ac.createOscillator(), g = ac.createGain(); const t1 = ac.currentTime + t0;
+      o.type = 'square'; o.frequency.value = 880;
+      g.gain.setValueAtTime(0.0001, t1); g.gain.exponentialRampToValueAtTime(0.12, t1 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t1 + 0.2);
+      o.connect(g); g.connect(ac.destination); o.start(t1); o.stop(t1 + 0.22);
+    });
+    setTimeout(() => { try{ ac.close(); }catch(e){} }, 1500);
+  }catch(e){}
+}
+$('#alarm-close').addEventListener('click', hideAlarm);
+$('#alarm-go').addEventListener('click', () => {
+  hideAlarm();
+  if($('#alarm-go').getAttribute('href') === '#30-minute-mark') setTimeout(() => { const b = document.getElementById('cb4'); if(b) b.scrollIntoView({block:'start'}); }, 50);
+});
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('#alarm').hidden) hideAlarm(); });
+
+/* ---------- self-destruct at 11:50 ---------- */
+function selfDestruct(){
+  if(destroyed) return; destroyed = true;
+  try{ Object.keys(localStorage).filter(k => k.indexOf('ia1-') === 0).forEach(k => localStorage.removeItem(k)); }catch(e){}
+  document.title = 'Self-destructed';
+  document.body.innerHTML = `<div class="boom gut" role="alert"><div class="boom-in">
+    <div class="eyebrow">24 November · 11:50 am · Exam time</div>
+    <h1>This site has self-destructed.</h1>
+    <p>Everything you need is in your head now.</p>
+    <ol class="tight"><li>Read the verb and the marks first.</li><li>Show working with the real numbers.</li><li>Conclusions: trend + r/p + psychology.</li><li>p &lt; 0.05 = significant. Bigger SD = more spread.</li></ol>
+    <p class="boom-gl">Good luck.</p>
+  </div></div>`;
+}
+window.IA1 = {showAlarm, MS};
+
+tick(); checkAlarm();
+setInterval(() => { tick(); checkAlarm(); }, 1000);
 
 /* ---------- charts ---------- */
 const charts = {};
@@ -1456,6 +1549,7 @@ let cram = store.get('ia1-cram', {start:null, acc:0});
 const cramMsgs = ['Block 1: exam layout and verbs. Read fast.','Block 2: calculations. Do every drill in your head.','Block 3: reading SD, r, p and t-tests.','Block 4: graphs, predictions and limitations.','Block 5: the conclusion formula and the psychology.','Block 6: rapid fire. Test yourself on everything.'];
 function cramElapsed(){ return Math.min(CR, cram.acc + (cram.start ? Date.now() - cram.start : 0)); }
 function cramTick(){
+  if(destroyed) return;
   const el = cramElapsed(), left = CR - el, running = !!cram.start, begun = el > 0;
   if(running && left <= 0){ cram = {start:null, acc:CR}; store.set('ia1-cram', cram); }
   const m = Math.floor(left/60000), s = Math.floor(left%60000/1000);
