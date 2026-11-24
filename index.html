@@ -122,7 +122,22 @@ caption{caption-side:top; text-align:left; padding:10px 12px 4px; font-weight:60
 .alarm-btns{display:flex; flex-wrap:wrap; gap:8px}
 .alarm-btns .btn{text-decoration:none; background:transparent; color:var(--alarm-text); border-color:var(--alarm-line)}
 .alarm-btns .btn.primary{background:var(--alarm-fg); border-color:var(--alarm-fg); color:var(--alarm-bg)}
-.boom{min-height:100vh; min-height:100dvh; background:var(--alarm-bg); color:var(--alarm-text); display:grid; place-items:center; padding-block:40px}
+.boom{min-height:100vh; min-height:100dvh; background:var(--alarm-bg); color:var(--alarm-text); display:grid; place-items:center; padding-block:40px; animation:boom-in .7s ease-out}
+@keyframes boom-in{from{opacity:0; transform:scale(1.06); filter:blur(6px)} to{opacity:1; transform:none; filter:none}}
+body.imploding{overflow:hidden; background:var(--alarm-bg)}
+.implode{animation:imp-shake .5s linear, imp-suck 1.3s cubic-bezier(.7,0,.95,.35) .45s forwards}
+@keyframes imp-shake{0%,100%{transform:translate(0,0)} 15%{transform:translate(-7px,3px) rotate(-.4deg)} 35%{transform:translate(6px,-4px) rotate(.4deg)} 55%{transform:translate(-5px,-3px)} 75%{transform:translate(5px,4px) rotate(-.3deg)} 90%{transform:translate(-3px,2px)}}
+@keyframes imp-suck{0%{transform:scale(1) rotate(0); filter:blur(0) saturate(1); opacity:1} 60%{opacity:1; filter:blur(2px) saturate(2.5) hue-rotate(-25deg)} 100%{transform:scale(0) rotate(35deg); filter:blur(12px) saturate(4) hue-rotate(-40deg); opacity:0}}
+.imp-fx{position:fixed; inset:0; z-index:60; pointer-events:none; overflow:hidden}
+.imp-fx i{position:absolute; left:50%; top:50%; border-radius:50%; transform:translate(-50%,-50%) scale(0)}
+.imp-core{width:44px; height:44px; background:var(--alarm-text); box-shadow:0 0 50px 24px var(--alarm-fg); animation:imp-core .55s ease-in 1.3s forwards}
+@keyframes imp-core{0%{transform:translate(-50%,-50%) scale(0)} 55%{transform:translate(-50%,-50%) scale(1.6)} 100%{transform:translate(-50%,-50%) scale(0)}}
+.imp-ring{width:60px; height:60px; background:transparent; border:3px solid var(--alarm-fg); box-shadow:0 0 30px var(--alarm-glow), inset 0 0 20px var(--alarm-glow); animation:imp-ring 1s ease-out 1.8s forwards}
+.imp-ring.r2{border-color:var(--alarm-text); animation-delay:1.92s}
+.imp-ring.r3{border-width:1px; animation-delay:2.05s}
+@keyframes imp-ring{0%{transform:translate(-50%,-50%) scale(0); opacity:1} 100%{transform:translate(-50%,-50%) scale(32); opacity:0}}
+.imp-fx .imp-flash{left:0; top:0; right:0; bottom:0; width:auto; height:auto; border-radius:0; transform:none; background:var(--alarm-text); opacity:0; animation:imp-flash .7s ease-out 1.8s forwards}
+@keyframes imp-flash{0%{opacity:0} 12%{opacity:.92} 100%{opacity:0}}
 .boom-in{max-width:620px; display:flex; flex-direction:column; gap:16px}
 .boom h1{color:var(--alarm-fg); font-size:clamp(2.2rem, 8vw, 4rem); text-shadow:0 0 30px var(--alarm-glow)}
 .boom .eyebrow{color:var(--alarm-muted)}
@@ -272,7 +287,7 @@ details[open] summary::before{content:"\2212"}
 
 <div class="clock gut" role="timer" aria-label="Time left until the exam">
   <div class="col">
-    <div class="clock-l"><span class="dot" aria-hidden="true"></span><span class="eyebrow">Time left until the exam · 11:50 am</span></div>
+    <div class="clock-l"><span class="dot" aria-hidden="true"></span><span class="eyebrow">Self-destruct at 11:45 am · exam at 11:50</span></div>
     <b id="cd">--:--:--</b>
     <p id="cd-msg">Lock in.</p>
     <div class="drain" aria-hidden="true"><i id="cd-bar"></i></div>
@@ -281,7 +296,7 @@ details[open] summary::before{content:"\2212"}
 
 <div class="alarm" id="alarm" role="alertdialog" aria-modal="true" aria-labelledby="alarm-big" hidden>
   <div class="alarm-card">
-    <div class="clock-l"><span class="dot" aria-hidden="true"></span><span class="eyebrow">Exam at 11:50 am</span></div>
+    <div class="clock-l"><span class="dot" aria-hidden="true"></span><span class="eyebrow">Self-destruct at 11:45 am · exam at 11:50</span></div>
     <div class="alarm-big" id="alarm-big"></div>
     <div class="alarm-body" id="alarm-body"></div>
     <div class="alarm-btns"><a class="btn primary" id="alarm-go" href="#start">Go</a><button class="btn" type="button" id="alarm-close">Got it</button></div>
@@ -1219,7 +1234,7 @@ show(location.hash.slice(1), false);
 
 /* ---------- countdown + plan ---------- */
 function toMin(s){ const [h,m] = s.split(':').map(Number); return h*60+m; }
-const EXAM = new Date(2026, 10, 24, 11, 50, 0, 0);      // 24 Nov 2026, 11:50 am (viewer's local time)
+const EXAM = new Date(2026, 10, 24, 11, 45, 0, 0);      // self-destruct: 24 Nov 2026, 11:45 am local time (exam itself is 11:50)
 const EXAM_START = new Date(2026, 10, 24, 9, 0, 0, 0);
 let destroyed = false;
 function tick(){
@@ -1239,7 +1254,7 @@ function tick(){
       : mins > 10 ? '20 minutes left. Cheat sheet once, then pack your bag.'
       : mins > 5 ? '10 minutes left. Stop studying. Walk in calm.'
       : mins > 1 ? 'Final 5 minutes. Phone off. Breathe.'
-      : 'This site self-destructs at 11:50.';
+      : 'This site self-destructs at 11:45.';
     bar.style.width = Math.max(0, Math.min(100, ms / (t - start) * 100)) + '%';
     clock.classList.toggle('urgent', mins <= 30);
     document.title = mins <= 60 ? txt + ' left · IA1 Data Test Prep' : 'IA1 Data Test Prep';
@@ -1257,7 +1272,7 @@ const MS = [
  {m:20, big:'20 MINUTES LEFT', body:'Read the cheat sheet once, start to finish. Then pack your bag: calculator, pens, pencil, ruler, water.', btn:'Open cheat sheet', href:'#cheatsheet'},
  {m:10, big:'10 MINUTES LEFT', body:'Stop studying. Read these once, then walk in calm:<ol class="tight" style="margin-top:8px"><li>Show working with the real numbers.</li><li>Order the data before the median.</li><li>Bigger SD = more dispersion. Quote both values.</li><li>r: sign = direction, size = strength.</li><li>p &lt; 0.05 = significant, unlikely due to chance.</li><li>Same people = paired. Different people = unpaired.</li><li>Conclusion = trend + r/p + psychology. Use "may".</li><li>Read the verb and the marks before you write.</li></ol>'},
  {m:5, big:'5 MINUTES', body:'Phone off. Breathe in for 4, out for 6. Out of 20, scaled to 10: every mark counts, so attempt every question.'},
- {m:1, big:'SELF-DESTRUCT IN 60 SECONDS', body:'At 11:50 this site deletes itself. Everything you need is in your head now. Good luck.'}
+ {m:1, big:'SELF-DESTRUCT IN 60 SECONDS', body:'At 11:45 this site deletes itself. Everything you need is in your head now. Good luck.'}
 ];
 let alarmLog = store.get('ia1-alarms', {seen:[]});
 function showAlarm(x){
@@ -1301,20 +1316,52 @@ $('#alarm-go').addEventListener('click', () => {
 });
 document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('#alarm').hidden) hideAlarm(); });
 
-/* ---------- self-destruct at 11:50 ---------- */
+/* ---------- self-destruct at 11:45 ---------- */
 function selfDestruct(){
   if(destroyed) return; destroyed = true;
   try{ Object.keys(localStorage).filter(k => k.indexOf('ia1-') === 0).forEach(k => localStorage.removeItem(k)); }catch(e){}
-  document.title = 'Self-destructed';
-  document.body.innerHTML = `<div class="boom gut" role="alert"><div class="boom-in">
-    <div class="eyebrow">24 November · 11:50 am · Exam time</div>
+  const boomHTML = `<div class="boom gut" role="alert"><div class="boom-in">
+    <div class="eyebrow">24 November · 11:45 am · Exam in 5 minutes</div>
     <h1>This site has self-destructed.</h1>
     <p>Everything you need is in your head now.</p>
     <ol class="tight"><li>Read the verb and the marks first.</li><li>Show working with the real numbers.</li><li>Conclusions: trend + r/p + psychology.</li><li>p &lt; 0.05 = significant. Bigger SD = more spread.</li></ol>
     <p class="boom-gl">Good luck.</p>
   </div></div>`;
+  const finish = () => { document.body.className = ''; document.body.innerHTML = boomHTML; document.title = 'Self-destructed'; };
+  let reduce = false; try{ reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  if(reduce){ finish(); return; }
+  document.title = 'IMPLODING…';
+  const a = $('#alarm'); if(a) a.hidden = true;
+  const wrap = document.createElement('div'); wrap.className = 'implode';
+  wrap.style.transformOrigin = '50% ' + (window.scrollY + window.innerHeight / 2) + 'px';
+  while(document.body.firstChild) wrap.appendChild(document.body.firstChild);
+  document.body.appendChild(wrap);
+  const fx = document.createElement('div'); fx.className = 'imp-fx'; fx.setAttribute('aria-hidden', 'true');
+  fx.innerHTML = '<i class="imp-core"></i><i class="imp-ring"></i><i class="imp-ring r2"></i><i class="imp-ring r3"></i><i class="imp-flash"></i>';
+  document.body.appendChild(fx);
+  document.body.classList.add('imploding');
+  implosionSound();
+  setTimeout(finish, 2700);
 }
-window.IA1 = {showAlarm, MS};
+function implosionSound(){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+    const ac = new AC(); if(ac.state === 'suspended') ac.resume();
+    const t = ac.currentTime;
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = 'sawtooth'; o.frequency.setValueAtTime(900, t); o.frequency.exponentialRampToValueAtTime(35, t + 1.75);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.07, t + 0.25); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
+    o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 1.85);
+    const len = Math.floor(ac.sampleRate * 1.4), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+    for(let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+    const n = ac.createBufferSource(); n.buffer = buf;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 380;
+    const ng = ac.createGain(); ng.gain.value = 0.55;
+    n.connect(lp); lp.connect(ng); ng.connect(ac.destination); n.start(t + 1.8);
+    setTimeout(() => { try{ ac.close(); }catch(e){} }, 4000);
+  }catch(e){}
+}
+window.IA1 = {showAlarm, MS, selfDestruct};
 
 tick(); checkAlarm();
 setInterval(() => { tick(); checkAlarm(); }, 1000);
