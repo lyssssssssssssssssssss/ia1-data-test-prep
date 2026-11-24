@@ -14,6 +14,8 @@
   --accent:#2340a8; --accent-soft:#e5eafa; --pen:#c4302a; --pen-soft:#fbe9e7;
   --hl:#ffe58a; --good:#17784a; --good-soft:#e3f4ea; --bad:#b4271f; --bad-soft:#fbe6e4;
   --s1:#2a78d6; --s2:#eb6834;
+  /* countdown band: deliberately dark red-on-black in both themes */
+  --alarm-bg:#170707; --alarm-line:#3d1412; --alarm-fg:#ff3b30; --alarm-glow:rgba(255,59,48,.45); --alarm-muted:#c98b86; --alarm-text:#ffd9d5;
   --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
   --f-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -52,8 +54,19 @@ mark,.key{background:linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 8
 .top{background:var(--surface); border-bottom:1px solid var(--line)}
 .top .col{display:flex; flex-wrap:wrap; gap:12px 24px; align-items:flex-end; justify-content:space-between; padding-block:22px 16px}
 .top .sub{color:var(--muted); margin-top:6px; max-width:60ch}
-.cd{display:flex; flex-direction:column; align-items:flex-end; gap:2px}
-.cd b{font-family:var(--f-mono); font-size:1.35rem; font-variant-numeric:tabular-nums; color:var(--pen)}
+.clock{background:var(--alarm-bg); color:var(--alarm-fg); border-bottom:1px solid var(--alarm-line)}
+.clock .col{display:flex; flex-direction:column; gap:10px; padding-block:20px 22px}
+.clock-l{display:flex; align-items:center; gap:10px}
+.clock .eyebrow{color:var(--alarm-muted)}
+.dot{flex:none; width:10px; height:10px; border-radius:50%; background:var(--alarm-fg); animation:pulse 1.2s ease-out infinite}
+#cd{font-family:var(--f-mono); font-weight:600; font-size:clamp(3.2rem, 14vw, 7rem); line-height:1; letter-spacing:-.03em; font-variant-numeric:tabular-nums; color:var(--alarm-fg); text-shadow:0 0 28px var(--alarm-glow)}
+#cd-msg{font-family:var(--f-display); font-weight:800; font-size:clamp(1.05rem, 2.8vw, 1.4rem); color:var(--alarm-text); text-transform:uppercase; letter-spacing:.05em}
+.drain{height:10px; background:var(--alarm-line); border-radius:5px; overflow:hidden}
+.drain i{display:block; height:100%; width:100%; background:var(--alarm-fg); box-shadow:0 0 12px var(--alarm-glow); transition:width 1s linear}
+.clock.urgent #cd{animation:throb 1s ease-in-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--alarm-glow)} 100%{box-shadow:0 0 0 12px transparent}}
+@keyframes throb{50%{opacity:.5}}
+.mini{margin-left:auto; flex:none; align-self:center; font-family:var(--f-mono); font-weight:600; font-variant-numeric:tabular-nums; color:var(--pen); padding:0 4px 0 12px}
 .tabs{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--surface); border-bottom:1px solid var(--line)}
 .tabs .col{display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; padding-block:6px}
 .tabs a{flex:none; text-decoration:none; color:var(--muted); font-weight:600; font-size:.9rem; padding:8px 12px; border-radius:8px; white-space:nowrap}
@@ -181,10 +194,9 @@ details[open] summary::before{content:"\2212"}
 
 @media (max-width:560px){
   .plan li{grid-template-columns:1fr; gap:2px}
-  .cd{align-items:flex-start}
   .mk{margin-left:0}
 }
-@media (prefers-reduced-motion: reduce){ *{transition:none!important; scroll-behavior:auto!important} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important; scroll-behavior:auto!important} }
 </style>
 </head>
 <body>
@@ -196,12 +208,17 @@ details[open] summary::before{content:"\2212"}
       <h1>IA1 Data Test Prep</h1>
       <p class="sub">Everything from your practice sheet, the L15 practice-exam review and the L18 revision lesson, with worked answers and the marking points moderators look for.</p>
     </div>
-    <div class="cd" aria-live="polite">
-      <span class="eyebrow">Exam at 11:50 am</span>
-      <b id="cd">--</b>
-    </div>
   </div>
 </header>
+
+<div class="clock gut" role="timer" aria-label="Time left until the exam">
+  <div class="col">
+    <div class="clock-l"><span class="dot" aria-hidden="true"></span><span class="eyebrow">Time left until the exam · 11:50 am</span></div>
+    <b id="cd">--:--:--</b>
+    <p id="cd-msg">Lock in.</p>
+    <div class="drain" aria-hidden="true"><i id="cd-bar"></i></div>
+  </div>
+</div>
 
 <nav class="tabs gut" aria-label="Sections">
   <div class="col">
@@ -213,6 +230,7 @@ details[open] summary::before{content:"\2212"}
     <a href="#quiz">Quick quiz</a>
     <a href="#brain">Brain &amp; memory</a>
     <a href="#cheatsheet">Cheat sheet</a>
+    <span class="mini" id="cd-mini" aria-hidden="true"></span>
   </div>
 </nav>
 
@@ -925,11 +943,25 @@ show(location.hash.slice(1), false);
 function toMin(s){ const [h,m] = s.split(':').map(Number); return h*60+m; }
 function tick(){
   const now = new Date(); const t = new Date(now); t.setHours(11,50,0,0);
-  const ms = t - now; const el = $('#cd');
-  if(ms <= 0){ el.textContent = 'Exam time. Good luck!'; }
-  else {
+  const start = new Date(now); start.setHours(9,0,0,0);
+  const ms = t - now;
+  const el = $('#cd'), msg = $('#cd-msg'), bar = $('#cd-bar'), mini = $('#cd-mini'), clock = $('.clock');
+  if(ms <= 0){
+    el.textContent = '00:00:00'; mini.textContent = 'Exam time';
+    msg.textContent = 'Exam time. Breathe. You know this.';
+    bar.style.width = '0%'; clock.classList.remove('urgent');
+  } else {
     const h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), s = Math.floor(ms%60000/1000);
-    el.textContent = (h ? h+'h ' : '') + String(m).padStart(2,'0') + 'm ' + String(s).padStart(2,'0') + 's left';
+    const txt = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    el.textContent = txt; mini.textContent = txt;
+    const mins = ms/60000;
+    msg.textContent = mins > 120 ? 'The clock is running. Lock in now.'
+      : mins > 60 ? 'Under 2 hours. Phone away. Every minute counts.'
+      : mins > 30 ? 'Under an hour. No distractions. Questions only.'
+      : mins > 10 ? 'Final stretch. Cheat sheet, then pack your bag.'
+      : 'Stop studying. Walk in calm. You have done the work.';
+    bar.style.width = Math.max(0, Math.min(100, ms / (t - start) * 100)) + '%';
+    clock.classList.toggle('urgent', mins <= 30);
   }
   const nm = now.getHours()*60 + now.getMinutes();
   $$('#plan li').forEach(li => {
